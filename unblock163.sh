@@ -131,7 +131,7 @@ _DOWNLOAD(){
 	[[ ! -e "node-v${NEW_VER_NODE}-linux-x64.tar.xz" ]] && echo -e "${ERROR} 依赖 Node 压缩包下载失败！" && _INSTALLATION_FAILURE_CLEANUP
 	xz -d "node-v${NEW_VER_NODE}-linux-x64.tar.xz"
 	[[ ! -e "node-v${NEW_VER_NODE}-linux-x64.tar" ]] && echo -e "${ERROR} 依赖 Node 压缩包解压失败（可能是 压缩包损坏 或者 没有安装解压工具 xz）！" && _INSTALLATION_FAILURE_CLEANUP
-	tar -xvf "node-v${NEW_VER_NODE}-linux-x64.tar"
+	tar -xf "node-v${NEW_VER_NODE}-linux-x64.tar"
 	[[ ! -e "node-v${NEW_VER_NODE}-linux-x64" ]] && echo -e "${ERROR} 依赖 Node 压缩包解压失败（可能是 压缩包损坏 或者 没有安装解压工具 tar）！" && _INSTALLATION_FAILURE_CLEANUP
 	mv "node-v${NEW_VER_NODE}-linux-x64" "node"
 	[[ ! -e "${FOLDER_NODE}" ]] && echo -e "${ERROR} 依赖 Node 文件夹重命名失败！" && _INSTALLATION_FAILURE_CLEANUP
