@@ -7,8 +7,8 @@
 
 ## 项目地址
 
- - [https://github.com/XIU2/SHELL](https://github.com/XIU2/SHELL){:target="_blank"}  
- - <a href="https://github.com/XIU2/SHELL" target="_blank">https://github.com/XIU2/SHELL</a>
+ - [https://github.com/XIU2/SHELL](https://github.com/XIU2/SHELL)
+<a href="https://github.com/XIU2/SHELL" target="_blank">XIU2/SHELL</a>
 
 ## 安装使用
 
