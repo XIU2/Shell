@@ -1,4 +1,4 @@
-# SHELL
+# 📖 SHELL - 帮助文档
 
 [![GitHub license](https://img.shields.io/github/license/XIU2/SHELL.svg?style=flat-square)](https://github.com/XIU2/SHELL/blob/master/LICENSE)
 
@@ -20,7 +20,7 @@
 
 当前获取帮助方式：
 
-1. 通过 [GitHub issue](https://github.com/XIU2/SHELL/issues) 提交问题（仅限问题反馈）
+1. 通过 [GitHub issue](https://github.com/XIU2/SHELL/issues) 提交问题
 
 无论采用哪种方式，请务必注意自己的言行举止，尊重他人，遵守最基本的社区行为规范。  
 使用 [GitHub issue](https://github.com/XIU2/SHELL/issues) 提交问题时请确保提供信息完整准确，否则不予跟进。
@@ -28,6 +28,12 @@
 ## 其他
 
 本项目中的脚本仅供日常学习使用，不得用于任何商业用途；学习使用请遵守您所在国家的法律，任何非法行为由使用者本身承担。
+
+### 右侧脚本列表图标说明
+
+ - 🔔：近期更新
+ - 🔥：近期热门
+ - 💤：停更或过时
 
 ## License
 
