@@ -35,11 +35,6 @@ _CONFIG_READ(){
 	PORT=$(cat ${FILE_CONF}|grep 'PORT = '|awk -F 'PORT = ' '{print $NF}')
 	SOURCE=$(cat ${FILE_CONF}|grep 'SOURCE = '|awk -F 'SOURCE = ' '{print $NF}')
 	STRICT=$(cat ${FILE_CONF}|grep 'STRICT = '|awk -F 'STRICT = ' '{print $NF}')
-	if [[ "${STRICT}" == "NO" ]]; then
-		STRICT=""
-	else
-		STRICT="-s "
-	fi
 }
 _START(){
 	_CHECK_PID
@@ -49,7 +44,11 @@ _START(){
 		_CONFIG_READ
 		echo -e "${INFO} $NAME 启动中..."
 		ulimit -n 51200
-		nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} ${STRICT}> "${FILE_LOG}" 2>&1 &
+		if [[ "${STRICT}" == "NO" ]]; then
+			nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} > "${FILE_LOG}" 2>&1 &
+		else
+			nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} -s -e "http://music.163.com" }> "${FILE_LOG}" 2>&1 &
+		fi
 		sleep 2s
 		_CHECK_PID
 		if [[ ${?} == 0 ]]; then
