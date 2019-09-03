@@ -1,6 +1,6 @@
 ## 脚本介绍
 
-该脚本基于 [Github - UnblockNeteaseMusic](UnblockNeteaseMusic) 项目。\
+该脚本基于 [Github - UnblockNeteaseMusic](https://github.com/nondanee/UnblockNeteaseMusic) 项目。\
 UnblockNeteaseMusic 是一个专门针对网易云音乐解锁灰色无版权音乐的代理工具，通过替换经过代理的无版权音乐链接为其他音源（如：QQ音源、酷我、酷狗、百度音乐、咪咕、JOOX等）来实现解锁网易云音乐无版权音乐。\
 **相当于在网易云音乐客户端中听全网版权音乐（相对）！**
 
