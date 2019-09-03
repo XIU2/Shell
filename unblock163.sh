@@ -4,12 +4,12 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐一键脚本
-#	版本: 1.0.0
+#	版本: 1.0.1
 #	作者: XIU2
 #	地址: https://github.com/XIU2/SHELL
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.0"
+NOW_VER_SHELL="1.0.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
 NAME="UnblockNeteaseMusic"
@@ -441,7 +441,7 @@ _IPTABLES_OPTION(){
 _UPDATE_SHELL(){
 	NEW_VER_SHELL=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/XIU2/SHELL/master/unblock163.sh"|grep 'NOW_VER_SHELL="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z "${NEW_VER_SHELL}" ]] && echo -e "${ERROR} 获取脚本最新版本失败！无法链接到 Github !" && exit 1
-	if [[ "${NEW_VER_SHELL}" != "${NOW_VER_SHELL}" ]]; then
+	#if [[ "${NEW_VER_SHELL}" != "${NOW_VER_SHELL}" ]]; then
 		if [[ -e "/etc/init.d/${NAME_SERVICE}" ]]; then
 			rm -rf "/etc/init.d/${NAME_SERVICE}"
 			_SERVICE
@@ -449,9 +449,9 @@ _UPDATE_SHELL(){
 		wget -N --no-check-certificate "https://raw.githubusercontent.com/XIU2/SHELL/master/unblock163.sh"
 		chmod +x "${FILEPASH_NOW}/unblock163.sh"
 		echo -e "脚本已更新为最新版本[ ${NEW_VER_SHELL} ] !\n${TIP} 因为更新方式为直接覆盖当前运行的脚本，所以可能下面会提示一些报错，无视即可。" && exit 0
-	else
-		echo -e "脚本当前为最新版本[ ${NEW_VER_SHELL} ] !" && exit 0
-	fi
+	#else
+		#echo -e "脚本当前为最新版本[ ${NEW_VER_SHELL} ] !" && exit 0
+	#fi
 }
 _CHECK_INFO "OS"
 [[ "${SYSTEM_RELEASE}" != "centos" ]] && [[ "${SYSTEM_RELEASE}" != "debian" ]]  && [[ "${SYSTEM_RELEASE}" != "ubuntu" ]] && echo -e "${ERROR} 本脚本不支持当前系统 ${SYSTEM_RELEASE} !" && exit 1
