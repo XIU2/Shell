@@ -50,7 +50,7 @@ _START(){
 		if [[ "${STRICT}" == "NO" ]]; then
 			nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} > "${FILE_LOG}" 2>&1 &
 		else
-			nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} -s -e "http://music.163.com" }> "${FILE_LOG}" 2>&1 &
+			nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} -s -e "http://music.163.com" > "${FILE_LOG}" 2>&1 &
 		fi
 		sleep 2s
 		_CHECK_PID
