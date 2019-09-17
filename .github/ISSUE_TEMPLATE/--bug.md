@@ -1,11 +1,14 @@
 ---
 name: 反馈BUG
 about: 反馈BUG以帮助我们进步
-title: "[BUG] - 一句话介绍BUG情况"
+title: "[BUG/xxx.sh] - 一句话介绍BUG情况"
 labels: ''
 assignees: ''
 
 ---
+
+### 脚本名称
+xxx.sh
 
 ### BUG描述
 对BUG的清晰简洁描述。
