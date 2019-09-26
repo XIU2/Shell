@@ -39,5 +39,5 @@
 
 ## License
 
-The MIT License.
+The MIT License.  
 The Anti-996 License.
