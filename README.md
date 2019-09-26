@@ -1,6 +1,8 @@
 # SHELL
 
 [![GitHub license](https://img.shields.io/github/license/XIU2/SHELL.svg?style=flat-square)](https://github.com/XIU2/SHELL/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg?style=flat-square)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg?style=flat-square)](https://996.icu)
 
 一些乱七八糟的脚本. 🙄  
 闲的没事写的脚本，有什么问题请发 Issues，觉得好用请点个星星~
@@ -39,3 +41,4 @@
 ## License
 
 The MIT License.
+The Anti-996 License.
