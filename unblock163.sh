@@ -4,12 +4,12 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐一键脚本
-#	版本: 1.0.3
+#	版本: 1.0.4
 #	作者: XIU2
 #	地址: https://github.com/XIU2/SHELL
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.3"
+NOW_VER_SHELL="1.0.4"
 NEW_VER_NODE_BACKUP="10.16.3"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -220,18 +220,26 @@ _PORT_SET() {
 		echo -e "${TIP} 如果你在本地通过 Hosts 方式使用该代理，那么只能选择 80 端口，其他方式不限制。"
 		read -e -p "(默认: 80):" PORT
 		[[ -z "${PORT}" ]] && PORT="80"
-		echo $((${PORT}+0)) &>/dev/null
-		if [[ ${?} == 0 ]]; then
-			if (( ${PORT} >= 1 )) && (( ${PORT} <= 65536 )); then
+		PORT_FORMAT_DETECTION=$(echo "${PORT}"|grep ":")
+		if [[ -z ${PORT_FORMAT_DETECTION} ]]; then
+				echo $((${PORT}+0)) &>/dev/null
+				if [[ ${?} == 0 ]]; then
+					if (( ${PORT} >= 1 )) && (( ${PORT} <= 65536 )); then
+						echo && echo "------------------------"
+						echo -e "	代理端口 : ${RED_BACKGROUND_PREFIX} ${PORT} ${FONT_COLOR_SUFFIX}"
+						echo "------------------------" && echo
+						break
+					else
+						echo "输入错误，请输入正确的端口。"
+					fi
+				else
+					echo "输入错误，请输入正确的端口。"
+				fi
+		else
 				echo && echo "------------------------"
 				echo -e "	代理端口 : ${RED_BACKGROUND_PREFIX} ${PORT} ${FONT_COLOR_SUFFIX}"
 				echo "------------------------" && echo
 				break
-			else
-				echo "输入错误，请输入正确的端口。"
-			fi
-		else
-			echo "输入错误，请输入正确的端口。"
 		fi
 		done
 }
