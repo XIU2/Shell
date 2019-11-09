@@ -217,7 +217,8 @@ _PORT_SET() {
 	while true
 		do
 		echo -e "请输入要使用的代理端口。 [1-65535]"
-		echo -e "${TIP} 如果你在本地通过 Hosts 方式使用该代理，那么只能选择 80 端口，其他方式不限制。"
+		echo -e "${TIP} 如果你在本地通过 Hosts 方式使用该代理，那么只能选择 80 端口，格式示例：80"
+		echo -e "${TIP} 如果需要搭配自签证书，那么还需要配置 HTTPS 端口，格式示例：80:443"
 		read -e -p "(默认: 80):" PORT
 		[[ -z "${PORT}" ]] && PORT="80"
 		PORT_FORMAT_DETECTION=$(echo "${PORT}"|grep ":")
