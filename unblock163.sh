@@ -4,12 +4,12 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐一键脚本
-#	版本: 1.0.4
+#	版本: 1.0.5
 #	作者: XIU2
 #	地址: https://github.com/XIU2/SHELL
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.4"
+NOW_VER_SHELL="1.0.5"
 NEW_VER_NODE_BACKUP="10.16.3"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -68,7 +68,7 @@ _CHECK_INFO(){
 		PID=$(ps -ef| grep "${NAME_PID}"| grep -v "grep" | grep -v "init.d" |grep -v "service" |awk '{print $2}')
 	elif [[ "${1}" == "NEW_VER_NODE" ]]; then
 		NEW_VER_NODE=$(wget -qO- https://nodejs.org/en/download/| grep "Latest LTS Version"| awk -F '<strong>' '{print $2}'| awk -F '</strong>' '{print $1}')
-		[[ -z "${NEW_VER_NODE}" ]] && NEW_VER_NODE="${NEW_VER_NODE_BACKUP}" && exit 1
+		[[ -z "${NEW_VER_NODE}" ]] && NEW_VER_NODE="${NEW_VER_NODE_BACKUP}"
 		echo -e "${INFO} 检测到 Node 最新版本为 [ ${NEW_VER_NODE} ]"
 	elif [[ "${1}" == "IPV4" ]]; then
 		IPV4=$(wget -qO- -4 -t1 -T2 ipinfo.io/ip)
