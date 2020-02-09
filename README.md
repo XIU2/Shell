@@ -1,7 +1,7 @@
 # SHELL
 
 [![GitHub license](https://img.shields.io/github/license/XIU2/SHELL.svg?style=flat-square)](https://github.com/XIU2/SHELL/blob/master/LICENSE)
-[![GitHub Star](https://img.shields.io/github/stars/XIU2/SHELL.svg?style=flat-square&label=Star)](https://github.com/XIU2/SHELL/stargazers)
+[![GitHub Star](https://img.shields.io/github/stars/XIU2/SHELL.svg?style=flat-square&label=Star&color=yellow)](https://github.com/XIU2/SHELL/stargazers)
 [![GitHub Fork](https://img.shields.io/github/forks/XIU2/SHELL.svg?style=flat-square&label=Fork)](https://github.com/XIU2/SHELL/network/members)
 
 一些乱七八糟的脚本. 🙄  
