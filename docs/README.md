@@ -39,4 +39,4 @@
 
 ## License
 
-The MIT License.  
+The MPL-2.0 License.  
