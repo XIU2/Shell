@@ -4,13 +4,13 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐一键脚本
-#	版本: 1.0.5
+#	版本: 1.0.6
 #	作者: XIU2
 #	地址: https://github.com/XIU2/SHELL
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.5"
-NEW_VER_NODE_BACKUP="10.16.3"
+NOW_VER_SHELL="1.0.6"
+NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
 NAME="UnblockNeteaseMusic"
@@ -93,6 +93,7 @@ _CHECK_INFO(){
 		fi
 	fi
 }
+# 安装前置依赖
 _INSTALLATION_DEPENDENCY(){
 	GIT_VER=$(git --version)
 	XZ_VER=$(xz -V)
@@ -118,6 +119,7 @@ _INSTALLATION_DEPENDENCY(){
 	# 修改服务器时区为北京时间
 	\cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 }
+# 下载主程序及相关依赖
 _DOWNLOAD(){
 	[[  -e "${FOLDER}" ]] && rm -rf "${FOLDER}"
 	echo -e "${INFO} 开始安装 ${NAME} ..."
@@ -138,6 +140,7 @@ _DOWNLOAD(){
 	[[ ! -e "${FOLDER_NODE}" ]] && echo -e "${ERROR} 依赖 Node 文件夹重命名失败！" && _INSTALLATION_FAILURE_CLEANUP
 	chmod +x "{FILE_NODE}"
 }
+# 安装系统服务
 _SERVICE(){
 	if [[ "${SYSTEM_RELEASE}" = "centos" ]]; then
 		wget --no-check-certificate "https://raw.githubusercontent.com/XIU2/SHELL/master/service/${NAME_SERVICE}_centos" -O "/etc/init.d/${NAME_SERVICE}"
@@ -153,11 +156,13 @@ _SERVICE(){
 	fi
 	echo -e "${INFO} ${NAME} 服务管理脚本下载完成 !"
 }
+# 安装失败善后处理
 _INSTALLATION_FAILURE_CLEANUP() {
 	[[  -e "${FOLDER}" ]] && rm -rf "${FOLDER}"
 	[[ -e "/etc/init.d/${NAME_SERVICE}" ]] && rm -rf "${FOLDER}"
 	exit 1
 }
+# 读入/写出配置
 _CONFIG_OPERATION(){
 	if [[ "${1}" == "READ" ]]; then
 		[[ ! -e "${FILE_CONF}" ]] && echo -e "${ERROR} ${NAME} 配置文件不存在 !" && exit 1
@@ -172,6 +177,7 @@ STRICT = ${STRICT}
 EOF
 	fi
 }
+# 设置选择
 _SET(){
 	_CHECK_INFO "INSTALL_STATUS"
 	echo && echo -e "你要做什么？
@@ -213,6 +219,7 @@ _SET(){
 		echo -e "${ERROR} 请输入正确的数字！ [1-4]" && exit 1
 	fi
 }
+# 修改 端口
 _PORT_SET() {
 	while true
 		do
@@ -244,6 +251,7 @@ _PORT_SET() {
 		fi
 		done
 }
+# 修改 音源
 _SOURCE_SET() {
 	echo -e "请输入要使用的音源排序。 [qq kuwo kugou baidu xiami migu joox]"
 	echo -e "${TIP} 音源排序指的是，无版权音乐会根据此处顺序优先匹配首位音源，如果匹配到就返回，反之就继续往后匹配。"
@@ -255,6 +263,7 @@ _SOURCE_SET() {
 	echo -e "	音源排序 : ${RED_BACKGROUND_PREFIX} ${SOURCE} ${FONT_COLOR_SUFFIX}"
 	echo "------------------------" && echo
 }
+# 修改 严格模式
 _STRICT_SET() {
 	echo -e "是否启用严格模式？[Y/n]"
 	echo -e "${TIP} 启用严格模式后，本代理仅允许网易云音乐域名访问，即本地设备只能通过 Host 或 PAC 使用，强烈建议开启，否则所有设备流量都会经过本代理。"
@@ -269,6 +278,7 @@ _STRICT_SET() {
 	echo -e "	严格模式 : ${RED_BACKGROUND_PREFIX} ${STRICT} ${FONT_COLOR_SUFFIX}"
 	echo "------------------------" && echo
 }
+# 安装
 _INSTALL() {
 	_CHECK_INFO "ROOT"
 	[[ -e "${FILE}" ]] && echo -e "${ERROR} 检测到 ${NAME} 已安装 !" && exit 1
@@ -294,6 +304,7 @@ _INSTALL() {
 	echo -e "${INFO} 所有步骤 安装完毕，开始启动..."
 	_START
 }
+# 更新主程序
 _UPDATE(){
 	_CHECK_INFO "INSTALL_STATUS"
 	echo -e "\n${INFO} 开始更新..."
@@ -302,6 +313,7 @@ _UPDATE(){
 	echo -e "${INFO} 更新完成！开始重启...\n"
 	_RESTART
 }
+# 卸载
 _UNINSTALL() {
 	_CHECK_INFO "INSTALL_STATUS"
 	echo -e "确定要卸载 ${NAME} ? (y/N)\n"
@@ -329,6 +341,7 @@ _UNINSTALL() {
 		echo -e "\n${INFO} 卸载已取消...\n"
 	fi
 }
+# 启动
 _START(){
 	_CHECK_INFO "INSTALL_STATUS"
 	_CHECK_INFO "PID"
@@ -337,12 +350,14 @@ _START(){
 	_CHECK_INFO "PID"
 	[[ ! -z "${PID}" ]] && _VIEW
 }
+# 停止
 _STOP(){
 	_CHECK_INFO "INSTALL_STATUS"
 	_CHECK_INFO "PID"
 	[[ -z "${PID}" ]] && echo -e "${ERROR} ${NAME} 没有运行，请检查 !" && exit 1
 	"/etc/init.d/${NAME_SERVICE}" stop
 }
+# 重启
 _RESTART(){
 	_CHECK_INFO "INSTALL_STATUS"
 	_CHECK_INFO "PID"
@@ -351,10 +366,12 @@ _RESTART(){
 	_CHECK_INFO "PID"
 	[[ ! -z "${PID}" ]] && _VIEW
 }
+# 查看 配置信息
 _VIEW(){
 	_CHECK_INFO "INSTALL_STATUS"
 	_CONFIG_OPERATION "READ"
 	_CHECK_INFO "IPV4"
+	PORT=$(echo $PORT | awk -F ':' '{print $(NF-1)}')
 	clear
 	echo -e "\n	UnblockNeteaseMusic 配置信息：
 	------------------------
@@ -364,12 +381,14 @@ _VIEW(){
 	严格模式\t: ${GREEN_FONT_PREFIX}${STRICT}${FONT_COLOR_SUFFIX}\n
 	PAC 地址\t: ${RED_FONT_PREFIX}http://${IPV4}:${PORT}/proxy.pac${FONT_COLOR_SUFFIX}\n"
 }
+# 查看 日志
 _VIEW_LOG(){
 	_CHECK_INFO "INSTALL_STATUS"
 	[[ ! -e "${FILE_LOG}" ]] && echo -e "${ERROR} ${NAME} 日志文件不存在 !" && exit 1
 	echo -e "\n${TIP} 按 ${RED_FONT_PREFIX}Ctrl+C${FONT_COLOR_SUFFIX} 终止查看日志\n 如果需要查看完整日志内容，请使用 ${RED_FONT_PREFIX}cat ${FILE_LOG}${FONT_COLOR_SUFFIX} 命令。"
 	tail -f "${FILE_LOG}"
 }
+# 查看 链接信息
 _VIEW_CONNECTION_INFO_WITH(){
 	_CONFIG_OPERATION "READ"
 	TARGET_IP=$(ss state connected sport = :${PORT} -tn|sed '1d'|awk '{print $NF}'|awk -F ':' '{print $(NF-1)}'|sort -u)
@@ -389,6 +408,7 @@ _VIEW_CONNECTION_INFO_WITH(){
 	fi
 	TARGET_IP=""
 }
+# 选择 链接信息
 _VIEW_CONNECTION_INFO(){
 	_CHECK_INFO "INSTALL_STATUS"
 	echo && echo -e "请选择要显示的格式：
@@ -405,6 +425,7 @@ _VIEW_CONNECTION_INFO(){
 		echo -e "${ERROR} 请输入正确的数字 [1-2]" && exit 1
 	fi
 }
+# 配置 防火墙
 _IPTABLES_OPTION(){
 	if [[ "${1}" == "ADD" ]]; then
 		if [[ ! "${2}" ]]; then
@@ -448,6 +469,7 @@ _IPTABLES_OPTION(){
 		fi
 	fi
 }
+# 更新脚本
 _UPDATE_SHELL(){
 	NEW_VER_SHELL=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/XIU2/SHELL/master/unblock163.sh"|grep 'NOW_VER_SHELL="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z "${NEW_VER_SHELL}" ]] && echo -e "${ERROR} 获取脚本最新版本失败！无法链接到 Github !" && exit 1
@@ -463,6 +485,7 @@ _UPDATE_SHELL(){
 		#echo -e "脚本当前为最新版本[ ${NEW_VER_SHELL} ] !" && exit 0
 	#fi
 }
+# 脚本起始位置
 _CHECK_INFO "OS"
 [[ "${SYSTEM_RELEASE}" != "centos" ]] && [[ "${SYSTEM_RELEASE}" != "debian" ]]  && [[ "${SYSTEM_RELEASE}" != "ubuntu" ]] && echo -e "${ERROR} 本脚本不支持当前系统 ${SYSTEM_RELEASE} !" && exit 1
 [[ "${SYSTEM_BIT}" !=  "x86_64" ]] && echo -e "${ERROR} ${NAME} 的依赖 Node 不支持当前系统位数 ${SYSTEM_BIT} !" && exit 1
