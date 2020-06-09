@@ -4,12 +4,12 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐一键脚本
-#	版本: 1.0.6
+#	版本: 1.0.7
 #	作者: XIU2
 #	地址: https://github.com/XIU2/SHELL
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.6"
+NOW_VER_SHELL="1.0.7"
 NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -371,7 +371,7 @@ _VIEW(){
 	_CHECK_INFO "INSTALL_STATUS"
 	_CONFIG_OPERATION "READ"
 	_CHECK_INFO "IPV4"
-	PORT=$(echo $PORT | awk -F ':' '{print $(NF-1)}')
+	PORT_HTTP=$(echo ${PORT} | awk -F ':' '{print $(NF-1)}')
 	clear
 	echo -e "\n	UnblockNeteaseMusic 配置信息：
 	------------------------
@@ -379,7 +379,7 @@ _VIEW(){
 	代理端口\t: ${GREEN_FONT_PREFIX}${PORT}${FONT_COLOR_SUFFIX}
 	音源排序\t: ${GREEN_FONT_PREFIX}${SOURCE}${FONT_COLOR_SUFFIX}
 	严格模式\t: ${GREEN_FONT_PREFIX}${STRICT}${FONT_COLOR_SUFFIX}\n
-	PAC 地址\t: ${RED_FONT_PREFIX}http://${IPV4}:${PORT}/proxy.pac${FONT_COLOR_SUFFIX}\n"
+	PAC 地址\t: ${RED_FONT_PREFIX}http://${IPV4}:${PORT_HTTP}/proxy.pac${FONT_COLOR_SUFFIX}\n"
 }
 # 查看 日志
 _VIEW_LOG(){
@@ -391,26 +391,31 @@ _VIEW_LOG(){
 # 查看 链接信息
 _VIEW_CONNECTION_INFO_WITH(){
 	_CONFIG_OPERATION "READ"
-	TARGET_IP=$(ss state connected sport = :${PORT} -tn|sed '1d'|awk '{print $NF}'|awk -F ':' '{print $(NF-1)}'|sort -u)
-	if [[ -z ${TARGET_IP} ]]; then
-		TARGET_IP_TOTAL="0"
-		echo -e "端口: ${GREEN_FONT_PREFIX}"${PORT}"${FONT_COLOR_SUFFIX}\t 链接IP总数: ${GREEN_FONT_PREFIX}"${TARGET_IP_TOTAL}"${FONT_COLOR_SUFFIX}\t 当前链接IP: "
-	else
-		TARGET_IP_TOTAL=$(echo -e "${TARGET_IP}"|wc -l)
-		if [[ "${1}" == "IP_ADDRESS" ]]; then
-			echo -e "端口: ${GREEN_FONT_PREFIX}"${PORT}"${FONT_COLOR_SUFFIX}\t 链接IP总数: ${GREEN_FONT_PREFIX}"${TARGET_IP_TOTAL}"${FONT_COLOR_SUFFIX}\t 当前链接IP: "
-			_CHECK_INFO "IP_ADDRESS"
-			echo
-		else
-			TARGET_IP=$(echo -e "\n${TARGET_IP}")
-			echo -e "端口: ${GREEN_FONT_PREFIX}"${PORT}"${FONT_COLOR_SUFFIX}\t 链接IP总数: ${GREEN_FONT_PREFIX}"${TARGET_IP_TOTAL}"${FONT_COLOR_SUFFIX}\t 当前链接IP: ${GREEN_FONT_PREFIX}${TARGET_IP}${FONT_COLOR_SUFFIX}\n"
-		fi
-	fi
-	TARGET_IP=""
+	PORT_FORMAT_DETECTION=$(echo "${PORT}"|grep ":")
+	[[ ! -z ${PORT_FORMAT_DETECTION} ]] && PORT=$(echo "${PORT}"|sed 's/:/ /g')
+	for ONE_PORT in ${PORT}
+		do
+		TARGET_IP=$(ss state connected sport = :${ONE_PORT} -tn|sed '1d'|awk '{print $NF}'|awk -F ':' '{print $(NF-1)}'|sort -u)
+			if [[ -z ${TARGET_IP} ]]; then
+				TARGET_IP_TOTAL="0"
+				echo -e "端口: ${GREEN_FONT_PREFIX}"${ONE_PORT}"${FONT_COLOR_SUFFIX}\t 链接IP总数: ${GREEN_FONT_PREFIX}"${TARGET_IP_TOTAL}"${FONT_COLOR_SUFFIX}\t 当前链接IP: "
+			else
+				TARGET_IP_TOTAL=$(echo -e "${TARGET_IP}"|wc -l)
+				if [[ "${1}" == "IP_ADDRESS" ]]; then
+					echo -e "端口: ${GREEN_FONT_PREFIX}"${ONE_PORT}"${FONT_COLOR_SUFFIX}\t 链接IP总数: ${GREEN_FONT_PREFIX}"${TARGET_IP_TOTAL}"${FONT_COLOR_SUFFIX}\t 当前链接IP: "
+					_CHECK_INFO "IP_ADDRESS"
+					echo
+				else
+					TARGET_IP=$(echo -e "\n${TARGET_IP}")
+					echo -e "端口: ${GREEN_FONT_PREFIX}"${ONE_PORT}"${FONT_COLOR_SUFFIX}\t 链接IP总数: ${GREEN_FONT_PREFIX}"${TARGET_IP_TOTAL}"${FONT_COLOR_SUFFIX}\t 当前链接IP: ${GREEN_FONT_PREFIX}${TARGET_IP}${FONT_COLOR_SUFFIX}\n"
+				fi
+			fi
+			TARGET_IP=""
+		done
 }
 # 选择 链接信息
 _VIEW_CONNECTION_INFO(){
-	_CHECK_INFO "INSTALL_STATUS"
+	#_CHECK_INFO "INSTALL_STATUS"
 	echo && echo -e "请选择要显示的格式：
  ${GREEN_FONT_PREFIX}1.${FONT_COLOR_SUFFIX} 显示 IP 格式
  ${GREEN_FONT_PREFIX}2.${FONT_COLOR_SUFFIX} 显示 IP+IP归属地 格式" && echo
