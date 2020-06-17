@@ -165,13 +165,13 @@ bash unblock163.sh
   
   0. 更新脚本
 ----------
-  1. 安装 UnblockNeteaseMusic
-  2. 更新 UnblockNeteaseMusic
-  3. 卸载 UnblockNeteaseMusic
+  1. 安装
+  2. 更新
+  3. 卸载
 ----------
-  4. 启动 UnblockNeteaseMusic
-  5. 停止 UnblockNeteaseMusic
-  6. 重启 UnblockNeteaseMusic
+  4. 启动
+  5. 停止
+  6. 重启
 ----------
   7. 设置 配置信息
   8. 查看 账号信息
