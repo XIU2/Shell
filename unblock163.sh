@@ -4,12 +4,12 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐一键脚本
-#	版本: 1.0.7
+#	版本: 1.0.8
 #	作者: XIU2
 #	地址: https://github.com/XIU2/SHELL
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.7"
+NOW_VER_SHELL="1.0.8"
 NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -83,10 +83,10 @@ _CHECK_INFO(){
 		fi
 	elif [[ "${1}" == "IP_ADDRESS" ]]; then
 		if [[ ! -z "${TARGET_IP}" ]]; then
-			for((IP_ADDRESS_INTEGER = ${TARGET_IP_total}; IP_ADDRESS_INTEGER >= 1; IP_ADDRESS_INTEGER--))
+			for((IP_ADDRESS_INTEGER = ${TARGET_IP_TOTAL}; IP_ADDRESS_INTEGER >= 1; IP_ADDRESS_INTEGER--))
 			do
 				IP_ADDRESS_IP=$(echo "${TARGET_IP}" |sed -n "$IP_ADDRESS_INTEGER"p)
-				IP_ADDRESS_IP_ADDRESS=$(wget -qO- -t1 -T2 http://freeapi.ipip.net/${IP_ADDRESS_IP}|sed 's/\"//g;s/,//g;s/\[//g;s/\]//g')
+				IP_ADDRESS_IP_ADDRESS=$(wget -qO- -t2 -T3 http://freeapi.ipip.net/${IP_ADDRESS_IP}|sed 's/\"//g;s/,//g;s/\[//g;s/\]//g')
 				echo -e "${GREEN_FONT_PREFIX}${IP_ADDRESS_IP}${FONT_COLOR_SUFFIX} (${IP_ADDRESS_IP_ADDRESS})"
 				sleep 1s
 			done
