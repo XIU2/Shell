@@ -8,10 +8,6 @@
 一些乱七八糟的脚本. 🙄  
 闲的没事写的脚本，有什么问题请发 Issues，觉得好用请点个星星~
 
-## 项目地址
-
-- [https://github.com/XIU2/SHELL](https://github.com/XIU2/SHELL)
-
 ## 安装使用
 
 [查看帮助文档](https://xiu2.github.io/SHELL/)
