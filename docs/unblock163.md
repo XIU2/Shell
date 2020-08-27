@@ -4,7 +4,7 @@
 UnblockNeteaseMusic 是一个专门针对网易云音乐解锁灰色无版权音乐的代理工具，通过替换经过代理的无版权音乐链接为其他音源（如：QQ音源、酷我、酷狗、百度音乐、咪咕、JOOX等）来实现解锁网易云音乐无版权音乐。  
 **相当于在网易云音乐客户端中听全网版权音乐（相对）！**
 
-!>  **·** 该脚本只适用于服务器，如果只想在本地使用，请使用我写的 [Windows 版 UnblockNeteaseMusic](https://zhuanlan.zhihu.com/p/79631291)！  
+!>  **·** 该脚本只适用于服务器，如果只想在本地使用，请使用我写的 ~~[Windows 版 UnblockNeteaseMusic](https://zhuanlan.zhihu.com/p/79631291)！~~  
 **·** **建议有条件的部署在国内服务器**，国外服务器只能用 QQ 音源（其他的音源不允许国外访问），况且部署在国外服务器相比国内或者本地速度会慢上不少(具体取决服务器与你之间链接的质量)。
 
 ### 脚本版本
@@ -34,7 +34,7 @@ sudo su
 执行下面一行代码下载并运行脚本：
 
 ``` bash
-wget -N --no-check-certificate https://raw.githubusercontent.com/XIU2/SHELL/master/unblock163.sh && chmod +x unblock163.sh && bash unblock163.sh
+wget -N --no-check-certificate https://raw.githubusercontent.com/XIU2/Shell/master/unblock163.sh && chmod +x unblock163.sh && bash unblock163.sh
 ```
 
 下载运行后会提示你输入数字来选择要做什么。
