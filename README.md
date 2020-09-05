@@ -10,7 +10,7 @@
 
 ****
 
-## 安装使用
+## 使用说明
 
 > **如果你当前位于 Github，请先访问官网：[https://shell.xiu2.xyz](https://shell.xiu2.xyz)**  
 
