@@ -3,13 +3,14 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
-#	项目: 解锁网易云音乐一键脚本
-#	版本: 1.0.8
+#	项目: 解锁网易云音乐
+#	版本: 1.0.9
 #	作者: XIU2
-#	地址: https://github.com/XIU2/SHELL
+#   官网: https://shell.xiu2.xyz
+#	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.8"
+NOW_VER_SHELL="1.0.9"
 NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -116,8 +117,11 @@ _INSTALLATION_DEPENDENCY(){
 	[[ -z "${GIT_VER}" ]] && echo -e "${ERROR} 依赖 Git 安装失败，请检查！" && exit 1
 	[[ -z "${XZ_VER}" ]] && echo -e "${ERROR} 解压缩依赖 xz 安装失败，请检查！" && exit 1
 	[[ -z "${TAR_VER}" ]] && echo -e "${ERROR} 解压缩依赖 tar 安装失败，请检查！" && exit 1
+
 	# 修改服务器时区为北京时间
-	\cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+	MD5_SHANGHAI=$(md5sum /usr/share/zoneinfo/Asia/Shanghai | awk '{print $1}')
+	MD5_LOCALTIME=$(md5sum /etc/localtime | awk '{print $1}')
+	[[ "${MD5_SHANGHAI}" != "${MD5_LOCALTIME}" ]] && \cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 }
 # 下载主程序及相关依赖
 _DOWNLOAD(){
@@ -143,13 +147,13 @@ _DOWNLOAD(){
 # 安装系统服务
 _SERVICE(){
 	if [[ "${SYSTEM_RELEASE}" = "centos" ]]; then
-		wget --no-check-certificate "https://raw.githubusercontent.com/XIU2/SHELL/master/service/${NAME_SERVICE}_centos" -O "/etc/init.d/${NAME_SERVICE}"
+		wget --no-check-certificate "https://shell.xiu2.xyz/service/${NAME_SERVICE}_centos" -O "/etc/init.d/${NAME_SERVICE}"
 		[[ !  -e "/etc/init.d/${NAME_SERVICE}" ]] && echo -e "${ERROR} ${NAME} 服务管理脚本下载失败 !" && _INSTALLATION_FAILURE_CLEANUP
 		chmod +x "/etc/init.d/${NAME_SERVICE}"
 		chkconfig --add "${NAME_SERVICE}"
 		chkconfig "${NAME_SERVICE}" on
 	else
-		wget --no-check-certificate "https://raw.githubusercontent.com/XIU2/SHELL/master/service/${NAME_SERVICE}_debian" -O "/etc/init.d/${NAME_SERVICE}"
+		wget --no-check-certificate "https://shell.xiu2.xyz/service/${NAME_SERVICE}_debian" -O "/etc/init.d/${NAME_SERVICE}"
 		[[ !  -e "/etc/init.d/${NAME_SERVICE}" ]] && echo -e "${ERROR} ${NAME} 服务管理脚本下载失败 !" && _INSTALLATION_FAILURE_CLEANUP
 		chmod +x "/etc/init.d/${NAME_SERVICE}"
 		update-rc.d -f "${NAME_SERVICE}" defaults
@@ -476,14 +480,14 @@ _IPTABLES_OPTION(){
 }
 # 更新脚本
 _UPDATE_SHELL(){
-	NEW_VER_SHELL=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/XIU2/SHELL/master/unblock163.sh"|grep 'NOW_VER_SHELL="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+	NEW_VER_SHELL=$(wget --no-check-certificate -qO- -t1 -T3 "https://shell.xiu2.xyz/unblock163.sh"|grep 'NOW_VER_SHELL="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z "${NEW_VER_SHELL}" ]] && echo -e "${ERROR} 获取脚本最新版本失败！无法链接到 Github !" && exit 1
 	#if [[ "${NEW_VER_SHELL}" != "${NOW_VER_SHELL}" ]]; then
 		if [[ -e "/etc/init.d/${NAME_SERVICE}" ]]; then
 			rm -rf "/etc/init.d/${NAME_SERVICE}"
 			_SERVICE
 		fi
-		wget -N --no-check-certificate "https://raw.githubusercontent.com/XIU2/SHELL/master/unblock163.sh"
+		wget -N --no-check-certificate "https://shell.xiu2.xyz/unblock163.sh"
 		chmod +x "${FILEPASH_NOW}/unblock163.sh"
 		echo -e "脚本已更新为最新版本[ ${NEW_VER_SHELL} ] !\n${TIP} 因为更新方式为直接覆盖当前运行的脚本，所以可能下面会提示一些报错，无视即可。" && exit 0
 	#else
