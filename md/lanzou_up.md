@@ -18,7 +18,7 @@
 
 ## 下载安装
 
-先下载脚本并赋予执行权限，先不要运行，还需要简单配置一下。
+先下载脚本并赋予执行权限，还不能运行，还需要简单配置一下。
 
 ``` bash
 wget -N --no-check-certificate https://shell.xiu2.xyz/lanzou_up.sh && chmod +x lanzou_up.sh
@@ -55,7 +55,7 @@ TOKEN="XXX" # 微信推送链接 Token
 网页端登陆蓝奏云，找到目标文件夹，右键文件夹名称 - 检查。
 如下图所示，红框中的就是文件夹 ID 了 (880498)。  
 
-![蓝奏云获取文件夹ID](https://shell.xiu2.xyz/img/lanzou_up-01.png)
+![蓝奏云获取文件夹ID](../img/lanzou_up-01.png)
 
 ### 上传文件
 
