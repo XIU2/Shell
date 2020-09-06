@@ -1,5 +1,7 @@
 - ****  
-   - [· *Unblock163.sh* ***- 解锁网易云音乐***](md/unblock163.md)
-   - [· *Lanzou_up.sh* ***- 蓝奏云上传文件***](md/lanzou_up.md)
+   - [· *lanzou_up.sh* ***- 蓝奏云上传文件***](md/lanzou_up.md)
+   - [· *qb_p.sh* ***- qBittorrent 自动制作便携版***](md/qb_p.md)
+   - [· *qbee_p.sh* ***- qBittorrentEE 自动制作便携版***](md/qbee_p.md)
+   - [· *unblock163.sh* ***- 解锁网易云音乐***](md/unblock163.md)
 - ****  
    - [· *Q&A* ***- 常见问题***](md/qa.md)

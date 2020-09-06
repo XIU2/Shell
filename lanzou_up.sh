@@ -12,7 +12,7 @@ export PATH
 
 USERNAME="XXX" # 蓝奏云用户名
 PASSWORD="XXX" # 蓝奏云密码
-TOKEN="XXX" # 微信推送链接 Token
+TOKEN="XXX" # 微信推送链接 Token，可选
 
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
 HEADER_UPLOAD="User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36

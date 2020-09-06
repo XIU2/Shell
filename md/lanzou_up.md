@@ -1,3 +1,5 @@
+# 📑 Lanzou_up.sh
+
 ## 脚本介绍
 
 很早之前，为了实现自动制作便携版并上传 qBittorret、qBittorretEE 到蓝奏云网盘，我就特地写了这个脚本来解决上传文件到蓝奏云网盘的问题。  
@@ -18,7 +20,7 @@
 
 ## 下载安装
 
-先下载脚本并赋予执行权限，还不能运行，还需要简单配置一下。
+先下载脚本并赋予执行权限，还不能运行，需要简单配置一下。
 
 ``` bash
 wget -N --no-check-certificate https://shell.xiu2.xyz/lanzou_up.sh && chmod +x lanzou_up.sh
@@ -40,12 +42,10 @@ nano lanzou_up.sh
 
 USERNAME="XXX" # 蓝奏云用户名
 PASSWORD="XXX" # 蓝奏云密码
-TOKEN="XXX" # 微信推送链接 Token
-
-# 脚本支持推送错误消息至微信，但是需要配置 TOKEN，支持以下两种，自行了解，不需要可留空或保留 XXX。
-# pushplus(默认) http://pushplus.hxtrip.com
-# Server酱 https://sc.ftqq.com/3.version
+TOKEN="XXX" # 微信推送链接 Token，可选
 ```
+
+> 脚本支持推送错误消息至微信，但是需要配置 TOKEN，支持 [PushPlus(默认)](http://pushplus.hxtrip.com)、[Server酱](https://sc.ftqq.com/3.version)，自行了解，不需要可留空或保留 XXX。  
 
 账号配置完毕后，就可以先试一试能不能正常上传文件了！  
 首先，你需要知道 **文件夹 ID** 才能将文件上传到这个文件夹。  
