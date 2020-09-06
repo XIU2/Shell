@@ -4,7 +4,7 @@ export PATH
 # --------------------------------------------------------------
 #	系统: ALL
 #	项目: qBittorrent 便携版制作 脚本
-#	版本: 1.0.0
+#	版本: 1.0.1
 #	作者: XIU2
 #   官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
@@ -15,6 +15,7 @@ FOLDER_ID="12345" # 蓝奏云网盘要上传文件的文件夹 ID， https://she
 TOKEN="XXX" # 微信推送链接 Token，可选
 FOLDER="/root/qBittorrent" # 脚本工作目录（下载、解压、压缩、上传等操作都在这个文件夹内），脚本会自动创建文件夹
 LZY_PATH="/root/lanzou_up.sh" # 蓝奏云上传文件脚本位置， https://shell.xiu2.xyz/#/md/lanzou_up
+FILE_FORMAT="zip" # 最后打包的压缩包格式，推荐 zip 或 7z
 
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
 FOLDER_DOWNLOAD="${FOLDER}/Download" # 存放下载文件的文件夹
@@ -65,16 +66,16 @@ _UNZIP(){
 # 压缩
 _ZIP(){
 	cd ${FOLDER_DOWNLOAD}
-	7z a -bb0 "qBittorrent-v${NEW_VER} 便携版.7z" "${FOLDER_DOWNLOAD_UNZIP}" > /dev/null # 压缩
+	7z a -bb0 "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "qBittorrent" > /dev/null # 压缩
 	rm -rf "${FOLDER_DOWNLOAD_UNZIP}" # 删除前面解压，已经无用文件夹
-	[[ ! -e "qBittorrent-v${NEW_VER} 便携版.7z" ]] && _NOTICE "ERROR" "qBittorrent_v${NEW_VER}压缩失败！"
+	[[ ! -e "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" ]] && _NOTICE "ERROR" "qBittorrent_v${NEW_VER}压缩失败！"
 	[[ ! -e ${FOLDER_UPLOAD} ]] && mkdir "${FOLDER_UPLOAD}" # 如果上传文件夹不存在，就新建
-	mv "qBittorrent-v${NEW_VER} 便携版.7z" "${FOLDER_UPLOAD}" # 移动到上传文件夹
+	mv "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "${FOLDER_UPLOAD}" # 移动到上传文件夹
 }
 
 # 上传
 _UPLOAD(){
-	bash ${LZY_PATH} "qBittorrent-v${NEW_VER} 便携版.7z" "${FOLDER_UPLOAD}/qBittorrent-v${NEW_VER} 便携版.7z" "${FOLDER_ID}"
+	bash ${LZY_PATH} "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "${FOLDER_UPLOAD}/qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "${FOLDER_ID}"
 	#_NOTICE "INFO" "qBittorrent_v${NEW_VER}" # 你可以取消井号注释，这样每次更新也会推送消息至微信
 }
 
