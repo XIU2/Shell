@@ -5,14 +5,13 @@
 [![GitHub Fork](https://img.shields.io/github/forks/XIU2/Shell.svg?style=flat-square&label=Fork&color=3ba675)](https://github.com/XIU2/Shell/network/members)
 [![SHELL.XIU2.XYZ](https://img.shields.io/static/v1?label=%20&message=SHELL.XIU2.XYZ&style=flat-square&labelColor=42B983&color=3ba675&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAUElEQVR42mN02tn8n4ECwEg1A/a61eBUtOHxGTh78vUdNDYAm+JcTY+hZAA2vwfImmDIOe9qobIBMIDNuchiMMOGiAHY/E5SGJBlAKmAYgMA9YZy4TweQEoAAAAASUVORK5CYII=)](https://shell.xiu2.xyz)
 
-一些乱七八糟的脚本。 🙄  
-闲的没事写的脚本，有什么问题请发 Issues，觉得好用请点个星星~
+🤪 随手写的一些乱七八糟脚本，有什么问题请发 [Issues](https://github.com/XIU2/Shell/issues/new/choose)，觉得好用请点个🌟~
 
 ****
 
 ## 使用说明
 
-> **如果你当前位于 Github，请先访问官网：[https://shell.xiu2.xyz](https://shell.xiu2.xyz)**  
+> **如果当前位于 Github，请先访问：[https://shell.xiu2.xyz](https://shell.xiu2.xyz)**  
 
 在左边侧栏中选择脚本，即可看到详细安装及使用说明等。
 
@@ -24,6 +23,7 @@
 ## 问题反馈
 
 - 请通过 [GitHub issue](https://github.com/XIU2/Shell/issues) 提交问题。  
+- 问题描述越详细越好（我不怕看着累，就怕看不到）！  
 
 ****
 
