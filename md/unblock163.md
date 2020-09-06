@@ -1,13 +1,14 @@
-# 📑 Unblock163.sh
+# 📑 unblock163.sh
 
 ## 脚本介绍
 
-该脚本基于 [Github - UnblockNeteaseMusic](https://github.com/nondanee/UnblockNeteaseMusic) 项目。\
-UnblockNeteaseMusic 是一个专门针对网易云音乐解锁灰色无版权音乐的代理工具，通过替换经过代理的无版权音乐链接为其他音源（如：QQ音源、酷我、酷狗、百度音乐、咪咕、JOOX等）来实现解锁网易云音乐无版权音乐。  
-**相当于在网易云音乐客户端中听全网版权音乐（相对）！**
+?> 该脚本基于 [UnblockNeteaseMusic](https://github.com/nondanee/UnblockNeteaseMusic) 项目。  
 
-!>  **·** 该脚本只适用于服务器，如果只想在本地使用，请使用我写的 ~~[Windows 版 UnblockNeteaseMusic](https://zhuanlan.zhihu.com/p/79631291)！~~  
-**·** **建议有条件的部署在国内服务器**，国外服务器只能用 QQ 音源（其他的音源不允许国外访问），况且部署在国外服务器相比国内或者本地速度会慢上不少(具体取决服务器与你之间链接的质量)。
+UnblockNeteaseMusic 是一个可以解锁网易云音乐灰色无版权音乐的代理工具。  
+原理是通过替换无版权音乐的链接为其他音源（QQ、酷我、酷狗、百度、咪咕、JOOX等）来实现解锁无版权音乐。**相当于在网易云音乐客户端中听全网版权音乐！**  
+
+?> 该脚本只适用于服务器，如果只想本地使用，请使用我写的 ~~[Windows 版](https://www.lanzoux.com/b0sopazc)~~ (被律师函警告，已停止更新)！  
+**建议有条件的部署在国内服务器**，国外服务器只能用 QQ 音源，况且部署在国外相比国内或本地会慢上不少。
 
 ### 脚本版本
 **最新版本：** v1.0.9  
@@ -212,7 +213,7 @@ bash unblock163.sh
 <details>
 <summary>点击展开 查看更多</summary>
 
-``` bash
+```
 HTTP Server running @ http://0.0.0.0:80
 events.js:174
       throw er; // Unhandled 'error' event
@@ -229,7 +230,7 @@ Emitted 'error' event at:
 ```
 请使用 `ss -ltp|grep 端口号` 查看是被哪个程序占用了。  
 例如提示如下内容，则可以使用 `kill -9 2333` 命令来结束该进程（如果有两个 pid 就结束最后那个）。  
-``` bash
+```
 State         Recv-Q         Send-Q                    Local Address:Port                     Peer Address:Port
 LISTEN0      128           0.0.0.0:80         0.0.0.0:*    users:(("nginx",pid=6666,fd=14),("nginx",pid=2333,fd=14))
 ```
@@ -257,6 +258,11 @@ LISTEN0      128           0.0.0.0:80         0.0.0.0:*    users:(("nginx",pid=6
 #### 2020年06月09日，版本 v1.0.7 :id=107
  - **1. 修复** 监听双端口时，无法查看链接信息的问题。  
 
+****
+
+<details>
+<summary>点击展开 查看更多</summary>
+
 #### 2020年04月05日，版本 v1.0.6 :id=106
  - **1. 修复** 当使用自签证书时，配置信息中代理端口显示不正确的问题。  
 
@@ -277,3 +283,5 @@ LISTEN0      128           0.0.0.0:80         0.0.0.0:*    users:(("nginx",pid=6
  
 #### 2019年08月31日，版本 v1.0.0 :id=100
  - **1. 发布** 第一个版本。  
+
+</details>

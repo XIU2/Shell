@@ -54,9 +54,9 @@ FOLDER="/root/qBittorrentEE" # 脚本工作目录（下载、解压、压缩、�
 LZY_PATH="/root/lanzou_up.sh" # 蓝奏云上传文件脚本位置
 ```
 
-> - 脚本支持推送错误消息至微信，但是需要配置 TOKEN，支持 [PushPlus(默认)](http://pushplus.hxtrip.com)、[Server酱](https://sc.ftqq.com/3.version)，自行了解，不需要可留空或保留 XXX。  
-> - 蓝奏云文件夹ID获取方法：[https://shell.xiu2.xyz/#/md/lanzou_up?id=获取文件夹ID](https://shell.xiu2.xyz/#/md/lanzou_up?id=%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e5%a4%b9id)  
-> - 蓝奏云上传文件脚本：[https://shell.xiu2.xyz/#/md/lanzou_up](https://shell.xiu2.xyz/#/md/lanzou_up)  
+?> 脚本支持推送错误消息至微信，但是需要配置 TOKEN，支持 [PushPlus(默认)](http://pushplus.hxtrip.com)、[Server酱](https://sc.ftqq.com/3.version)，自行了解，不需要可留空或保留 XXX。  
+蓝奏云文件夹ID获取方法：[https://shell.xiu2.xyz/#/md/lanzou_up?id=获取文件夹ID](https://shell.xiu2.xyz/#/md/lanzou_up?id=%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e5%a4%b9id)  
+蓝奏云上传文件脚本：[https://shell.xiu2.xyz/#/md/lanzou_up](https://shell.xiu2.xyz/#/md/lanzou_up)  
 
 配置完毕后，就可以先试一试能不能正常使用了！  
 
