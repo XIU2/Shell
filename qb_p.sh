@@ -4,7 +4,7 @@ export PATH
 # --------------------------------------------------------------
 #	系统: ALL
 #	项目: qBittorrent 便携版制作 脚本
-#	版本: 1.0.1
+#	版本: 1.0.2
 #	作者: XIU2
 #   官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
@@ -66,16 +66,16 @@ _UNZIP(){
 # 压缩
 _ZIP(){
 	cd ${FOLDER_DOWNLOAD}
-	7z a -bb0 "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "qBittorrent" > /dev/null # 压缩
+	7z a -bb0 "qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" "qBittorrent" > /dev/null # 压缩
 	rm -rf "${FOLDER_DOWNLOAD_UNZIP}" # 删除前面解压，已经无用文件夹
-	[[ ! -e "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" ]] && _NOTICE "ERROR" "qBittorrent_v${NEW_VER}压缩失败！"
+	[[ ! -e "qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" ]] && _NOTICE "ERROR" "qBittorrent_v${NEW_VER}压缩失败！"
 	[[ ! -e ${FOLDER_UPLOAD} ]] && mkdir "${FOLDER_UPLOAD}" # 如果上传文件夹不存在，就新建
-	mv "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "${FOLDER_UPLOAD}" # 移动到上传文件夹
+	mv "qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}" # 移动到上传文件夹
 }
 
 # 上传
 _UPLOAD(){
-	bash ${LZY_PATH} "qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "${FOLDER_UPLOAD}/qBittorrent_v${NEW_VER}_便携版${FILE_FORMAT}" "${FOLDER_ID}"
+	bash ${LZY_PATH} "qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}/qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_ID}"
 	#_NOTICE "INFO" "qBittorrent_v${NEW_VER}" # 你可以取消井号注释，这样每次更新也会推送消息至微信
 }
 
