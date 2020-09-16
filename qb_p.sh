@@ -6,7 +6,7 @@ export PATH
 #	项目: qBittorrent 便携版制作 脚本
 #	版本: 1.0.2
 #	作者: XIU2
-#   官网: https://shell.xiu2.xyz
+#	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 

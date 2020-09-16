@@ -6,7 +6,7 @@ export PATH
 #	项目: 解锁网易云音乐
 #	版本: 1.0.9
 #	作者: XIU2
-#   官网: https://shell.xiu2.xyz
+#	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 

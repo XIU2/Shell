@@ -6,7 +6,7 @@ export PATH
 #	项目: 蓝奏云上传文件
 #	版本: 1.0.1
 #	作者: XIU2
-#   官网: https://shell.xiu2.xyz
+#	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 
@@ -27,10 +27,10 @@ INFO="[信息]" && ERROR="[错误]" && TIP="[注意]"
 
 # 检查是否已登录
 _CHECK_LOGIN() {
-	if [[ "${COOKIE_PHPDISK_INFO}" = "" && "${COOKIE_PHPDISK_INFO}" = "XXX" ]]; then
+	if [[ "${COOKIE_PHPDISK_INFO}" = "" || "${COOKIE_PHPDISK_INFO}" = "XXX" ]]; then
 		_NOTICE "ERROR" "请指定 Cookie 中 phpdisk_info 的值！"
 	fi
-	if [[ "${COOKIE_YLOGIN}" = "" && "${COOKIE_YLOGIN}" = "XXX" ]]; then
+	if [[ "${COOKIE_YLOGIN}" = "" || "${COOKIE_YLOGIN}" = "XXX" ]]; then
 		_NOTICE "ERROR" "请指定 Cookie 中 ylogin 的值！"
 	fi
 
