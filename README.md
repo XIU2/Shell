@@ -38,4 +38,4 @@
 
 ## License
 
-The MIT License.  
+The GPL-2.0 License.  
