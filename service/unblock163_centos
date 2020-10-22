@@ -18,8 +18,7 @@ FOLDER="/usr/local/UnblockNeteaseMusic"
 FILE="${FOLDER}/app.js"
 FILE_CONF="${FOLDER}/UnblockNeteaseMusic.conf"
 FILE_LOG="${FOLDER}/UnblockNeteaseMusic.log"
-FOLDER_NODE="/usr/local/UnblockNeteaseMusic/node"
-FILE_NODE="/usr/local/UnblockNeteaseMusic/node/bin/node"
+FILE_NODE="${FOLDER}/node/bin/node"
 
 GREEN_FONT_PREFIX="\033[32m" && RED_FONT_PREFIX="\033[31m" && GREEN_BACKGROUND_PREFIX="\033[42;37m" && RED_BACKGROUND_PREFIX="\033[41;37m" && FONT_COLOR_SUFFIX="\033[0m"
 INFO="${GREEN_FONT_PREFIX}[信息]${FONT_COLOR_SUFFIX}" && ERROR="${RED_FONT_PREFIX}[错误]${FONT_COLOR_SUFFIX}" && TIP="${GREEN_FONT_PREFIX}[注意]${FONT_COLOR_SUFFIX}"
@@ -92,7 +91,7 @@ _RESTART(){
 }
 case "$1" in
 	start|stop|restart|status)
-	INDEX=$(echo ${1}|sed 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/')
+	INDEX=$(echo ${1^^})
 	_${INDEX}
 	;;
 	*)
