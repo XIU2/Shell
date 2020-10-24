@@ -4,7 +4,7 @@ export PATH
 # --------------------------------------------------------------
 #	系统: ALL
 #	项目: qBittorrent 便携版制作 脚本
-#	版本: 1.0.2
+#	版本: 1.0.3
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
@@ -20,6 +20,7 @@ FILE_FORMAT="zip" # 最后打包的压缩包格式，推荐 zip 或 7z
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
 FOLDER_DOWNLOAD="${FOLDER}/Download" # 存放下载文件的文件夹
 FOLDER_DOWNLOAD_UNZIP="${FOLDER_DOWNLOAD}/qBittorrent" # 解压下载文件的文件夹
+FOLDER_OTHER="${FOLDER}/Other" # 存放配置等文件文件夹
 FOLDER_UPLOAD="${FOLDER}/Upload" # 存放压缩后文件 并 上传的文件夹
 FILE_OLD_VER="${FOLDER}/old_ver.txt" # 存放旧版本号的文件（每次执行脚本都会检查最新版本）
 
@@ -66,6 +67,8 @@ _UNZIP(){
 # 压缩
 _ZIP(){
 	cd ${FOLDER_DOWNLOAD}
+	[[ ! -e ${FOLDER_OTHER} ]] && mkdir "${FOLDER_OTHER}" # 如果便携配置等文件所在文件夹不存在，就新建
+	cp -r "${FOLDER_OTHER}"/* "${FOLDER_DOWNLOAD_UNZIP}" # 复制便携配置等文件到文件夹内（即压缩包内）
 	7z a -bb0 "qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" "qBittorrent" > /dev/null # 压缩
 	rm -rf "${FOLDER_DOWNLOAD_UNZIP}" # 删除前面解压，已经无用文件夹
 	[[ ! -e "qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" ]] && _NOTICE "ERROR" "qBittorrent_v${NEW_VER}压缩失败！"

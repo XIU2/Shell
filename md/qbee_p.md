@@ -8,7 +8,7 @@
 
 ### 脚本版本
 
-**最新版本：** v1.0.3
+**最新版本：** v1.0.4
 
 ### 系统要求
 
@@ -59,6 +59,8 @@ FILE_FORMAT="zip" # 最后打包的压缩包格式，推荐 zip 或 7z
 蓝奏云文件夹ID获取方法：[https://shell.xiu2.xyz/#/md/lanzou_up?id=获取文件夹ID](https://shell.xiu2.xyz/#/md/lanzou_up?id=%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e5%a4%b9id)  
 蓝奏云上传文件脚本：[https://shell.xiu2.xyz/#/md/lanzou_up](https://shell.xiu2.xyz/#/md/lanzou_up)  
 
+然后去 [蓝奏云](https://xiu.lanzoux.com/b073jjwta) 下载一个最新版本，把压缩包内的 `profile` 文件夹放到服务器的 `qBittorrentEE/Other` 文件夹下（没有就新建，可以添加其他说明文件，就像我做的那样）。  
+
 配置完毕后，就可以先试一试能不能正常使用了！  
 
 ### 使用示例
@@ -83,6 +85,9 @@ bash qbee_p.sh "4.25.11"
 
 ## 更新日志
  
+#### 2020年10月24日，版本 v1.0.4 :id=104
+ - **1. 修复** 压缩前没有添加便携配置文件的问题。  
+
 #### 2020年09月28日，版本 v1.0.3 :id=103
  - **1. 修复** 因脚本变量中 [FOLDER_DOWNLOAD_UNZIP] 错误，而导致的更新错误的问题。  
 
