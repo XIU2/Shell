@@ -4,7 +4,7 @@ export PATH
 # --------------------------------------------------------------
 #	系统: ALL
 #	项目: 蓝奏云上传文件
-#	版本: 1.0.1
+#	版本: 1.0.2
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
@@ -28,22 +28,22 @@ INFO="[信息]" && ERROR="[错误]" && TIP="[注意]"
 # 检查是否已登录
 _CHECK_LOGIN() {
 	if [[ "${COOKIE_PHPDISK_INFO}" = "" || "${COOKIE_PHPDISK_INFO}" = "XXX" ]]; then
-		_NOTICE "ERROR" "请指定 Cookie 中 phpdisk_info 的值！"
+		_NOTICE "ERROR" "请指定 Cookie 中 phpdisk_info 的值！[$(date '+%Y/%m/%d %H:%M')]"
 	fi
 	if [[ "${COOKIE_YLOGIN}" = "" || "${COOKIE_YLOGIN}" = "XXX" ]]; then
-		_NOTICE "ERROR" "请指定 Cookie 中 ylogin 的值！"
+		_NOTICE "ERROR" "请指定 Cookie 中 ylogin 的值！[$(date '+%Y/%m/%d %H:%M')]"
 	fi
 
 	HTML_CHECK_LOGIN=$(curl -s --http1.1 -b "ylogin=${COOKIE_YLOGIN};phpdisk_info=${COOKIE_PHPDISK_INFO}" -H "${HEADER_CHECK_LOGIN}" "${URL_ACCOUNT}"|grep "登录")
-	[[ ! -z "${HTML_CHECK_LOGIN}" ]]  && _NOTICE "ERROR" "Cookie 已失效，请更新！"
+	[[ ! -z "${HTML_CHECK_LOGIN}" ]]  && _NOTICE "ERROR" "Cookie 已失效，请更新！[$(date '+%Y/%m/%d %H:%M')]"
 }
 
 # 上传文件
 _UPLOAD() {
-	[[ $(du "${NAME_FILE}"|awk '{print $1}') -gt 100000000 ]] && _NOTICE "ERROR" "${NAME}文件大于 100MB！"
+	[[ $(du "${NAME_FILE}"|awk '{print $1}') -gt 100000000 ]] && _NOTICE "ERROR" "${NAME}文件大于 100MB！[$(date '+%Y/%m/%d %H:%M')]"
 	HTML_UPLOAD=$(curl -s -b "ylogin=${COOKIE_YLOGIN};phpdisk_info=${COOKIE_PHPDISK_INFO}" -H "${URL_UPLOAD}" -F "task=1" -F "id=WU_FILE_0" -F "folder_id=${FOLDER_ID}" -F "name=${NAME}" -F "upload_file=@${NAME_FILE}" "${URL_UPLOAD}"|grep '\\u4e0a\\u4f20\\u6210\\u529f')
-	[[ -z "${HTML_UPLOAD}" ]] && _NOTICE "ERROR" "${NAME}文件上传失败！"
-	echo -e "${INFO} 文件上传成功！"
+	[[ -z "${HTML_UPLOAD}" ]] && _NOTICE "ERROR" "${NAME}文件上传失败！[$(date '+%Y/%m/%d %H:%M')]"
+	echo -e "${INFO} 文件上传成功！[$(date '+%Y/%m/%d %H:%M')]"
 }
 
 # 消息推送至微信
