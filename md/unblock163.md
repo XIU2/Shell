@@ -88,13 +88,13 @@ wget -N --no-check-certificate https://shell.xiu2.xyz/unblock163.sh && chmod +x 
 ``` bash
 	UnblockNeteaseMusic 配置信息：
 	------------------------
-	本机地址	: X.X.X.X
-	代理端口	: 80
-	音源排序	: qq migu kuwo kugou baidu
-	严格模式	: YES
-  指定 IP :
+	本机地址: X.X.X.X
+	代理端口: 80
+	音源排序: qq migu kuwo kugou baidu
+	严格模式: YES
+	指定 IP: 
 
-	PAC 地址	: http://X.X.X.X:80/proxy.pac
+	PAC 地址: http://X.X.X.X:80/proxy.pac
 ```
 
 ****
