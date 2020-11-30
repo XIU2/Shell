@@ -4,13 +4,13 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐
-#	版本: 1.0.9
+#	版本: 1.1.0
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.0.9"
+NOW_VER_SHELL="1.1.0"
 NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -173,11 +173,13 @@ _CONFIG_OPERATION(){
 		PORT=$(cat ${FILE_CONF}|grep 'PORT = '|awk -F 'PORT = ' '{print $NF}')
 		SOURCE=$(cat ${FILE_CONF}|grep 'SOURCE = '|awk -F 'SOURCE = ' '{print $NF}')
 		STRICT=$(cat ${FILE_CONF}|grep 'STRICT = '|awk -F 'STRICT = ' '{print $NF}')
+		FORCEHOST=$(cat ${FILE_CONF}|grep 'FORCEHOST = '|awk -F 'FORCEHOST = ' '{print $NF}')
 	elif [[ "${1}" == "WRITE" ]]; then
 		cat > ${FILE_CONF}<<-EOF
 PORT = ${PORT}
 SOURCE = ${SOURCE}
 STRICT = ${STRICT}
+FORCEHOST = ${FORCEHOST}
 EOF
 	fi
 }
@@ -188,7 +190,8 @@ _SET(){
  ${GREEN_FONT_PREFIX}1.${FONT_COLOR_SUFFIX}  修改 代理端口
  ${GREEN_FONT_PREFIX}2.${FONT_COLOR_SUFFIX}  修改 音源排序
  ${GREEN_FONT_PREFIX}3.${FONT_COLOR_SUFFIX}  修改 严格模式
- ${GREEN_FONT_PREFIX}4.${FONT_COLOR_SUFFIX}  修改 全部配置" && echo
+ ${GREEN_FONT_PREFIX}4.${FONT_COLOR_SUFFIX}  修改 指定 IP
+ ${GREEN_FONT_PREFIX}5.${FONT_COLOR_SUFFIX}  修改 全部配置" && echo
 	read -e -p "(默认: 取消):" SET_INDEX
 	[[ -z "${SET_INDEX}" ]] && echo "已取消..." && exit 1
 	if [[ "${SET_INDEX}" == "1" ]]; then
@@ -211,16 +214,22 @@ _SET(){
 		_RESTART
 	elif [[ "${SET_INDEX}" == "4" ]]; then
 		_CONFIG_OPERATION "READ"
+		_FORCEHOST_SET
+		_CONFIG_OPERATION "WRITE"
+		_RESTART
+	elif [[ "${SET_INDEX}" == "5" ]]; then
+		_CONFIG_OPERATION "READ"
 		OLD_PORT="${PORT}"
 		_PORT_SET
 		_SOURCE_SET
 		_STRICT_SET
+		_FORCEHOST_SET
 		_CONFIG_OPERATION "WRITE"
 		_IPTABLES_OPTION "DEL" "${OLD_PORT}"
 		_IPTABLES_OPTION "ADD"
 		_RESTART
 	else
-		echo -e "${ERROR} 请输入正确的数字！ [1-4]" && exit 1
+		echo -e "${ERROR} 请输入正确的数字！ [1-5]" && exit 1
 	fi
 }
 # 修改 端口
@@ -282,6 +291,14 @@ _STRICT_SET() {
 	echo -e "	严格模式 : ${RED_BACKGROUND_PREFIX} ${STRICT} ${FONT_COLOR_SUFFIX}"
 	echo "------------------------" && echo
 }
+# 修改 指定网易服务器 IP
+_FORCEHOST_SET() {
+	echo -e "指定网易服务器 IP，不懂请跳过。[格式：IPv4]"
+	read -e -p "(默认为空):" FORCEHOST
+	echo && echo "------------------------"
+	echo -e "	指定 IP : ${RED_BACKGROUND_PREFIX} ${FORCEHOST} ${FONT_COLOR_SUFFIX}"
+	echo "------------------------" && echo
+}
 # 安装
 _INSTALL() {
 	_CHECK_INFO "ROOT"
@@ -290,6 +307,7 @@ _INSTALL() {
 	_PORT_SET
 	_SOURCE_SET
 	_STRICT_SET
+	_FORCEHOST_SET
 	echo -e "${INFO} 开始安装/配置 依赖..."
 	_INSTALLATION_DEPENDENCY
 	echo -e "${INFO} 开始下载/安装..."
@@ -379,11 +397,12 @@ _VIEW(){
 	clear
 	echo -e "\n	UnblockNeteaseMusic 配置信息：
 	------------------------
-	本机地址\t: ${GREEN_FONT_PREFIX}${IPV4}${FONT_COLOR_SUFFIX}
-	代理端口\t: ${GREEN_FONT_PREFIX}${PORT}${FONT_COLOR_SUFFIX}
-	音源排序\t: ${GREEN_FONT_PREFIX}${SOURCE}${FONT_COLOR_SUFFIX}
-	严格模式\t: ${GREEN_FONT_PREFIX}${STRICT}${FONT_COLOR_SUFFIX}\n
-	PAC 地址\t: ${RED_FONT_PREFIX}http://${IPV4}:${PORT_HTTP}/proxy.pac${FONT_COLOR_SUFFIX}\n"
+	本机地址: ${GREEN_FONT_PREFIX}${IPV4}${FONT_COLOR_SUFFIX}
+	代理端口: ${GREEN_FONT_PREFIX}${PORT}${FONT_COLOR_SUFFIX}
+	音源排序: ${GREEN_FONT_PREFIX}${SOURCE}${FONT_COLOR_SUFFIX}
+	严格模式: ${GREEN_FONT_PREFIX}${STRICT}${FONT_COLOR_SUFFIX}
+	指定 IP: ${GREEN_FONT_PREFIX}${FORCEHOST}${FONT_COLOR_SUFFIX}\n
+	PAC 地址: ${RED_FONT_PREFIX}http://${IPV4}:${PORT_HTTP}/proxy.pac${FONT_COLOR_SUFFIX}\n"
 }
 # 查看 日志
 _VIEW_LOG(){

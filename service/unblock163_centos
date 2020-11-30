@@ -37,6 +37,7 @@ _CONFIG_READ(){
 	PORT=$(cat ${FILE_CONF}|grep 'PORT = '|awk -F 'PORT = ' '{print $NF}')
 	SOURCE=$(cat ${FILE_CONF}|grep 'SOURCE = '|awk -F 'SOURCE = ' '{print $NF}')
 	STRICT=$(cat ${FILE_CONF}|grep 'STRICT = '|awk -F 'STRICT = ' '{print $NF}')
+	FORCEHOST=$(cat ${FILE_CONF}|grep 'FORCEHOST = '|awk -F 'FORCEHOST = ' '{print $NF}')
 }
 _START(){
 	_CHECK_PID
@@ -47,10 +48,16 @@ _START(){
 		echo -e "${INFO} $NAME 启动中..."
 		ulimit -n 51200
 		if [[ "${STRICT}" == "NO" ]]; then
-			nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} > "${FILE_LOG}" 2>&1 &
+			ARGUMENTS_S="" && ARGUMENTS_E="" && STRICT=""
 		else
-			nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} -s -e "http://music.163.com" > "${FILE_LOG}" 2>&1 &
+			ARGUMENTS_S="-s" && ARGUMENTS_E="-e" && STRICT="http://music.163.com"
 		fi
+		if [[ -z "${FORCEHOST}" ]]; then
+			ARGUMENTS_F=""
+		else
+			ARGUMENTS_F="-f"
+		fi
+		nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} ${ARGUMENTS_S} ${ARGUMENTS_E} ${STRICT} ${ARGUMENTS_F} ${FORCEHOST} > "${FILE_LOG}" 2>&1 &
 		sleep 2s
 		_CHECK_PID
 		if [[ ${?} == 0 ]]; then
