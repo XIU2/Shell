@@ -51,11 +51,11 @@ TOKEN="XXX" # 微信推送链接 Token，可选
 
 ### 获取Cookie
 
-网页端登陆蓝奏云后，按 **F12** 键，然后如下图所示依次点击：*Application - Cookies - https://up.woozooo.com*  
+网页端登陆蓝奏云后，按 **F12** 键，然后如下图所示依次点击：*Application - Cookies - https://pc.woozooo.com*  
 这样就能看到 Cookie 中的 *phpdisk_info(值就是那一大串字符)* 和 *ylogin(值就是那几位数字)* 了。  
 双击值即可按 **Ctrl+C** 复制，然后将脚本头部对应变量的 *XXX* 替换即可。  
 
-![蓝奏云获取文件夹ID](https://cdn.jsdelivr.net/gh/XIU2/Shell@master/img/lanzou_up-02.png)
+![蓝奏云获取文件夹ID](https://cdn.jsdelivr.net/gh/XIU2/Shell@master/img/lanzou_up-03.png)
 
 ****
 
