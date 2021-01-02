@@ -1,0 +1,93 @@
+#!/bin/bash
+# chkconfig: 2345 90 10
+# description: Book
+
+### BEGIN INIT INFO
+# Provides:          Book
+# Required-Start:    $network $syslog
+# Required-Stop:     $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Lightweight SOCKS5 proxy tool
+# Description:       Start or stop the Book
+### END INIT INFO
+
+NAME="Book"
+NAME_BIN="./book "
+FOLDER="/usr/local/book"
+FILE_CONF="/usr/local/book/book.conf"
+FILE_LOG="/usr/local/book/book.log"
+
+GREEN_FONT_PREFIX="\033[32m" && RED_FONT_PREFIX="\033[31m" && GREEN_BACKGROUND_PREFIX="\033[42;37m" && RED_BACKGROUND_PREFIX="\033[41;37m" && FONT_COLOR_SUFFIX="\033[0m"
+INFO=" ${GREEN_FONT_PREFIX}[信息]${FONT_COLOR_SUFFIX}" && ERROR="${RED_FONT_PREFIX}[错误]${FONT_COLOR_SUFFIX}" && TIP=" ${GREEN_FONT_PREFIX}[注意]${FONT_COLOR_SUFFIX}"RETVAL=0
+
+_CHECK_RUNNING(){
+	PID=$(ps -ef |grep "${NAME_BIN}" |grep -v "grep" |grep -v ".sh" |grep -v "init.d" |grep -v "service" |awk '{print $2}')
+	if [[ ! -z ${PID} ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+_CONFIG_READ(){
+	[[ ! -e ${FILE_CONF} ]] && echo -e "${ERROR} ${NAME} 配置文件不存在 !" && exit 1
+	PORT=$(cat ${FILE_CONF}|grep 'PORT = '|awk -F 'PORT = ' '{print $NF}')
+	PASSWORD=$(cat ${FILE_CONF}|grep 'PASSWORD = '|awk -F 'PASSWORD = ' '{print $NF}')
+}
+_DO_START(){
+	_CHECK_RUNNING
+	if [[ $? == 0 ]]; then
+		echo -e "${INFO} ${NAME} (PID ${PID}) 正在运行..." && exit 0
+	else
+		_CONFIG_READ
+		cd ${FOLDER}
+		echo -e "${INFO} ${NAME} 启动中..."
+		ulimit -n 51200
+		nohup ./${NAME_BIN} server -l "0.0.0.0:${PORT}" -p "${PASSWORD}" > "${FILE_LOG}"  2>&1 &
+		sleep 2s
+		_CHECK_RUNNING
+		if [[ $? == 0 ]]; then
+			echo -e "${INFO} ${NAME} 启动成功 !"
+		else
+			echo -e "${ERROR} ${NAME} 启动失败 !"
+		fi
+	fi
+}
+_DO_STOP(){
+	_CHECK_RUNNING
+	if [[ $? == 0 ]]; then
+		kill -9 ${PID}
+		RETVAL=$?
+		if [[ $RETVAL == 0 ]]; then
+			echo -e "${INFO} ${NAME} 停止成功 !"
+		else
+			echo -e "${ERROR} ${NAME} 停止失败 !"
+		fi
+	else
+		echo -e "${INFO} ${NAME} 未运行"
+		RETVAL=1
+	fi
+}
+_DO_STATUS(){
+	_CHECK_RUNNING
+	if [[ $? == 0 ]]; then
+		echo -e "${INFO} ${NAME} (PID ${PID}) 正在运行..."
+	else
+		echo -e "${INFO} ${NAME} 未运行 !"
+		RETVAL=1
+	fi
+}
+_DO_RESTART(){
+	_DO_STOP
+	_DO_START
+}
+case "${1^^}" in
+	START|STOP|RESTART|STATUS)
+	_DO_${1^^}
+	;;
+	*)
+	echo -e "使用方法: $0 { start | stop | restart | status }"
+	RETVAL=1
+	;;
+esac
+exit $RETVAL
