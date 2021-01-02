@@ -38,4 +38,4 @@
 
 ## License
 
-The GPL-2.0 License.  
+The GPL-3.0 License.  
