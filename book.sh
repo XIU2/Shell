@@ -84,7 +84,7 @@ _CHECK_INFO(){
 
 	# 获取最新版本
 	elif [[ "${1}" == "NEW_VER" ]]; then
-		NEW_VER=$(wget -qO- https://api.github.com/repos/txthinking/brook/releases| grep "tag_name"| head -n 1| awk -F ":" '{print $2}'| sed 's/\"//g;s/,//g;s/ //g')
+		NEW_VER=$(wget -qO- https://api.github.com/repos/txthinking/brook/releases/latest| grep "tag_name"| awk -F '"' '{print $4}')
 		[[ -z ${NEW_VER} ]] && echo -e "${ERROR} ${NAME} 最新版本获取失败！" && exit 1
 		echo -e "${INFO} 检测 ${NAME} 最新版本为 [ ${NEW_VER} ]"
 
