@@ -20,4 +20,4 @@ for /f "tokens=1 delims=," %%i in (result.csv) do (
     )
 )
 :END
-pause 
+pause
