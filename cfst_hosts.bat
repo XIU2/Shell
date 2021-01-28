@@ -47,7 +47,7 @@ if not exist "nowip.txt" (
 ::从 nowip.txt 文件获取当前 Hosts 中使用的 Cloudflare CDN IP
 set /p nowip=<nowip.txt
 echo 开始测速...
-CloudflareST.exe -p 0 -dd -t 1
+CloudflareST.exe -p 0
 for /f "tokens=1 delims=," %%i in (result.csv) do (
     SET /a n+=1 
     If !n!==2 (
