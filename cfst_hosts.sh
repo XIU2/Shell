@@ -32,6 +32,7 @@ _UPDATE() {
 	NOWIP=$(head -1 nowip.txt)
 	./CloudflareST
 	BESTIP=$(sed -n "2,1p" result.csv | awk -F, '{print $1}')
+	echo ${BESTIP} > nowip.txt
 	echo -e "\n旧 IP 为 ${NOWIP}\n新 IP 为 ${BESTIP}\n"
 
 	echo "开始备份 Hosts 文件（hosts_backup）..."
