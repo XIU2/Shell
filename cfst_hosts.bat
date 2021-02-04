@@ -37,6 +37,7 @@ if '%errorlevel%' NEQ '0' (
 ::如果 nowip.txt 文件不存在，说明是第一次运行该脚本
 if not exist "nowip.txt" (
     echo 该脚本的作用为 CloudflareST 测速后获取最快 IP 并替换 Hosts 中的 Cloudflare CDN IP。
+    echo 使用前请先阅读：https://github.com/XIU2/CloudflareSpeedTest/issues/42#issuecomment-768273768
     echo.
     echo 第一次使用，请先将 Hosts 中所有 Cloudflare CDN IP 统一改为一个 IP。
     set /p nowip="输入该 Cloudflare CDN IP 并回车（后续不再需要该步骤）:"
