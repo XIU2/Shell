@@ -377,7 +377,7 @@ _VIEW_CONNECTION_INFO(){
 # 显示 链接信息
 _VIEW_CONNECTION_INFO_WITH(){
 	_CONFIG_OPERATION "READ"
-	TARGET_IP=$(ss state connected sport = :${PORT} -tn|sed '1d'|awk '{print $NF}'|awk -F ':' '{print $(NF-1)}'|sort -u)
+	TARGET_IP=$(ss state connected sport = :${PORT} -tn|sed '1d'|awk '{print $NF}'|sed 's/\]//g'|awk -F ':' '{print $(NF-1)}'|sort -u)
 	if [[ -z ${TARGET_IP} ]]; then
 		TARGET_IP_TOTAL="0"
 		echo -e "端口: ${GREEN_FONT_PREFIX}"${PORT}"${FONT_COLOR_SUFFIX}\t 链接IP总数: ${GREEN_FONT_PREFIX}"${TARGET_IP_TOTAL}"${FONT_COLOR_SUFFIX}\t 当前链接IP: "
