@@ -69,9 +69,10 @@ echo 新 IP 为 %bestip%
 :: 这个 D: 是目录的盘符，主要是为了避免当前脚本和 3Proxy 不在一个分区盘符下
 D:
 CD D:\Program Files\3Proxy
+:: 请确保运行该脚本前，已经测试过 3Proxy 可以正常运行！
 
 echo.
-echo 开始备份 Hosts 文件（3proxy.cfg_backup）...
+echo 开始备份 3proxy.cfg 文件（3proxy.cfg_backup）...
 copy 3proxy.cfg 3proxy.cfg_backup
 echo.
 echo 开始替换...
