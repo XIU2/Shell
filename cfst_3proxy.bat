@@ -1,6 +1,6 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新 3Proxy
-::	版本: 1.0.0
+::	版本: 1.0.1
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
@@ -49,8 +49,12 @@ if not exist "nowip_3proxy.txt" (
 set /p nowip=<nowip_3proxy.txt
 echo 开始测速...
 
+
+
 :: 这里可以自己添加、修改 CloudflareST 的运行参数，默认的 -p 0 是为了避免测速完需要 回车键 才能继续的问题
 CloudflareST.exe -p 0
+
+
 
 for /f "tokens=1 delims=," %%i in (result.csv) do (
     set /a n+=1 
@@ -65,11 +69,13 @@ echo.
 echo 旧 IP 为 %nowip%
 echo 新 IP 为 %bestip%
 
-:: 把这里改成你的 3Proxy 程序所在目录
-:: 这个 D: 是目录的盘符，主要是为了避免当前脚本和 3Proxy 不在一个分区盘符下
-D:
-CD D:\Program Files\3Proxy
-:: 请确保运行该脚本前，已经测试过 3Proxy 可以正常运行！
+
+
+:: 请将引号内的 D:\Program Files\3Proxy 改为你的 3Proxy 程序所在目录
+CD /d "D:\Program Files\3Proxy"
+:: 请确保运行该脚本前，已经测试过 3Proxy 可以正常运行并使用！
+
+
 
 echo.
 echo 开始备份 3proxy.cfg 文件（3proxy.cfg_backup）...
