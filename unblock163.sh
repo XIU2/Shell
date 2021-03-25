@@ -4,13 +4,13 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐
-#	版本: 1.1.0
+#	版本: 1.1.1
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.1.0"
+NOW_VER_SHELL="1.1.1"
 NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -127,7 +127,7 @@ _INSTALLATION_DEPENDENCY(){
 _DOWNLOAD(){
 	[[  -e "${FOLDER}" ]] && rm -rf "${FOLDER}"
 	echo -e "${INFO} 开始安装 ${NAME} ..."
-	env GIT_SSL_NO_VERIFY=true git clone -b master https://github.com/nondanee/UnblockNeteaseMusic.git "${FOLDER}"
+	env GIT_SSL_NO_VERIFY=true git clone -b master https://gitee.com/mirrors/UnblockNeteaseMusic.git "${FOLDER}"
 	[[ ! -e "${FOLDER}" ]] && echo -e "${ERROR} ${NAME} 下载失败 !" && _INSTALLATION_FAILURE_CLEANUP
 	echo -e "${INFO} ${NAME} 安装完成，开始安装其依赖 Node ..."
 	
