@@ -1,12 +1,15 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新域名解析记录
-::	版本: 1.0.0
+::	版本: 1.0.1
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
 @echo off
 Setlocal Enabledelayedexpansion
-CloudflareST.exe -p 0
+
+:: 这里可以自己添加、修改 CloudflareST 的运行参数，echo.| 的作用是自动回车退出程序（不再需要加上 -p 0 参数了）
+echo.|CloudflareST.exe
+
 for /f "tokens=1 delims=," %%i in (result.csv) do (
     Set /a n+=1 
     If !n!==2 (
