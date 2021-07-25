@@ -4,13 +4,13 @@ export PATH
 # --------------------------------------------------------------
 #	系统: CentOS/Debian/Ubuntu
 #	项目: 解锁网易云音乐
-#	版本: 1.1.1
+#	版本: 1.1.2
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.1.1"
+NOW_VER_SHELL="1.1.2"
 NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -134,13 +134,19 @@ _DOWNLOAD(){
 	cd "${FOLDER}"
 	
 	[[  -e "${FOLDER_NODE}" ]] && rm -rf "${FOLDER_NODE}"
-	wget --no-check-certificate "https://nodejs.org/dist/v${NEW_VER_NODE}/node-v${NEW_VER_NODE}-linux-x64.tar.xz"
-	[[ ! -e "node-v${NEW_VER_NODE}-linux-x64.tar.xz" ]] && echo -e "${ERROR} 依赖 Node 压缩包下载失败！" && _INSTALLATION_FAILURE_CLEANUP
-	xz -d "node-v${NEW_VER_NODE}-linux-x64.tar.xz"
-	[[ ! -e "node-v${NEW_VER_NODE}-linux-x64.tar" ]] && echo -e "${ERROR} 依赖 Node 压缩包解压失败（可能是 压缩包损坏 或者 没有安装解压工具 xz）！" && _INSTALLATION_FAILURE_CLEANUP
-	tar -xf "node-v${NEW_VER_NODE}-linux-x64.tar"
-	[[ ! -e "node-v${NEW_VER_NODE}-linux-x64" ]] && echo -e "${ERROR} 依赖 Node 压缩包解压失败（可能是 压缩包损坏 或者 没有安装解压工具 tar）！" && _INSTALLATION_FAILURE_CLEANUP
-	mv "node-v${NEW_VER_NODE}-linux-x64" "node"
+	if [[ "${SYSTEM_BIT}" == "x86_64" ]]; then
+		FILE_NAME="node-v${NEW_VER_NODE}-linux-x64"
+		wget --no-check-certificate "https://nodejs.org/dist/v${NEW_VER_NODE}/${FILE_NAME}.tar.xz"
+	else
+		FILE_NAME="node-v${NEW_VER_NODE}-linux-arm64"
+		wget --no-check-certificate "https://nodejs.org/dist/v${NEW_VER_NODE}/${FILE_NAME}.tar.xz"
+	fi
+	[[ ! -e "${FILE_NAME}.tar.xz" ]] && echo -e "${ERROR} 依赖 Node 压缩包下载失败！" && _INSTALLATION_FAILURE_CLEANUP
+	xz -d "${FILE_NAME}.tar.xz"
+	[[ ! -e "${FILE_NAME}.tar" ]] && echo -e "${ERROR} 依赖 Node 压缩包解压失败（可能是 压缩包损坏 或者 没有安装解压工具 xz）！" && _INSTALLATION_FAILURE_CLEANUP
+	tar -xf "${FILE_NAME}.tar"
+	[[ ! -e "${FILE_NAME}" ]] && echo -e "${ERROR} 依赖 Node 压缩包解压失败（可能是 压缩包损坏 或者 没有安装解压工具 tar）！" && _INSTALLATION_FAILURE_CLEANUP
+	mv "${FILE_NAME}" "node"
 	[[ ! -e "${FOLDER_NODE}" ]] && echo -e "${ERROR} 依赖 Node 文件夹重命名失败！" && _INSTALLATION_FAILURE_CLEANUP
 	chmod +x "{FILE_NODE}"
 }
@@ -516,7 +522,7 @@ _UPDATE_SHELL(){
 # 脚本起始位置
 _CHECK_INFO "OS"
 [[ "${SYSTEM_RELEASE}" != "centos" ]] && [[ "${SYSTEM_RELEASE}" != "debian" ]]  && [[ "${SYSTEM_RELEASE}" != "ubuntu" ]] && echo -e "${ERROR} 本脚本不支持当前系统 ${SYSTEM_RELEASE} !" && exit 1
-[[ "${SYSTEM_BIT}" !=  "x86_64" ]] && echo -e "${ERROR} ${NAME} 的依赖 Node 不支持当前系统位数 ${SYSTEM_BIT} !" && exit 1
+[[ "${SYSTEM_BIT}" !=  "x86_64" ]] || [[ "${SYSTEM_BIT}" !=  "aarch64" ]] && echo -e "${ERROR} ${NAME} 的依赖 Node 不支持当前系统位数 ${SYSTEM_BIT} !" && exit 1
 
 	echo && echo -e "  UnblockNeteaseMusic 一键脚本 ${RED_FONT_PREFIX}[v${NOW_VER_SHELL}]${FONT_COLOR_SUFFIX}
   
