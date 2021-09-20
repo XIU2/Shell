@@ -10,7 +10,7 @@ export PATH
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.1.3"
+NOW_VER_SHELL="1.1.4"
 NEW_VER_NODE_BACKUP="12.16.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -127,7 +127,7 @@ _INSTALLATION_DEPENDENCY(){
 _DOWNLOAD(){
 	[[  -e "${FOLDER}" ]] && rm -rf "${FOLDER}"
 	echo -e "${INFO} 开始安装 ${NAME} ..."
-	env GIT_SSL_NO_VERIFY=true git clone -b enhanced https://github.com/UnblockNeteaseMusic/server.git "${FOLDER}"
+	env GIT_SSL_NO_VERIFY=true git clone -b enhanced https://github.com.cnpmjs.org/UnblockNeteaseMusic/server.git "${FOLDER}"
 	[[ ! -e "${FOLDER}" ]] && echo -e "${ERROR} ${NAME} 下载失败 !" && _INSTALLATION_FAILURE_CLEANUP
 	echo -e "${INFO} ${NAME} 安装完成，开始安装其依赖 Node ..."
 	
