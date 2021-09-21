@@ -127,7 +127,7 @@ _INSTALLATION_DEPENDENCY(){
 _DOWNLOAD(){
 	[[  -e "${FOLDER}" ]] && rm -rf "${FOLDER}"
 	echo -e "${INFO} 开始安装 ${NAME} ..."
-	env GIT_SSL_NO_VERIFY=true git clone -b enhanced https://github.com/UnblockNeteaseMusic/server.git "${FOLDER}"
+	env GIT_SSL_NO_VERIFY=true git clone -b enhanced https://github.com.cnpmjs.org/UnblockNeteaseMusic/server.git "${FOLDER}"
 	[[ ! -e "${FOLDER}" ]] && echo -e "${ERROR} ${NAME} 下载失败 !" && _INSTALLATION_FAILURE_CLEANUP
 	echo -e "${INFO} ${NAME} 安装完成，开始安装其依赖 Node ..."	
 	_DOWNLOAD_NODE
@@ -156,13 +156,13 @@ _DOWNLOAD_NODE(){
 # 安装系统服务
 _SERVICE(){
 	if [[ "${SYSTEM_RELEASE}" = "centos" ]]; then
-		wget --no-check-certificate "https://raw.githubusercontent.com/XIU2/Shell/master/service/${NAME_SERVICE}_centos" -O "/etc/init.d/${NAME_SERVICE}"
+		wget --no-check-certificate "https://shell.xiu2.xyz/service/${NAME_SERVICE}_centos" -O "/etc/init.d/${NAME_SERVICE}"
 		[[ !  -e "/etc/init.d/${NAME_SERVICE}" ]] && echo -e "${ERROR} ${NAME} 服务管理脚本下载失败 !" && _INSTALLATION_FAILURE_CLEANUP
 		chmod +x "/etc/init.d/${NAME_SERVICE}"
 		chkconfig --add "${NAME_SERVICE}"
 		chkconfig "${NAME_SERVICE}" on
 	else
-		wget --no-check-certificate "https://raw.githubusercontent.com/XIU2/Shell/master/service/${NAME_SERVICE}_debian" -O "/etc/init.d/${NAME_SERVICE}"
+		wget --no-check-certificate "https://shell.xiu2.xyz/service/${NAME_SERVICE}_debian" -O "/etc/init.d/${NAME_SERVICE}"
 		[[ !  -e "/etc/init.d/${NAME_SERVICE}" ]] && echo -e "${ERROR} ${NAME} 服务管理脚本下载失败 !" && _INSTALLATION_FAILURE_CLEANUP
 		chmod +x "/etc/init.d/${NAME_SERVICE}"
 		update-rc.d -f "${NAME_SERVICE}" defaults
@@ -562,14 +562,14 @@ _IPTABLES_OPTION(){
 }
 # 更新脚本
 _UPDATE_SHELL(){
-	NEW_VER_SHELL=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/XIU2/Shell/master/unblock163.sh"|grep 'NOW_VER_SHELL="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+	NEW_VER_SHELL=$(wget --no-check-certificate -qO- -t1 -T3 "https://shell.xiu2.xyz/unblock163.sh"|grep 'NOW_VER_SHELL="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z "${NEW_VER_SHELL}" ]] && echo -e "${ERROR} 获取脚本最新版本失败！无法链接到 Github !" && exit 1
 	#if [[ "${NEW_VER_SHELL}" != "${NOW_VER_SHELL}" ]]; then
 		if [[ -e "/etc/init.d/${NAME_SERVICE}" ]]; then
 			rm -rf "/etc/init.d/${NAME_SERVICE}"
 			_SERVICE
 		fi
-		wget -N --no-check-certificate "https://raw.githubusercontent.com/XIU2/Shell/master/unblock163.sh"
+		wget -N --no-check-certificate "https://shell.xiu2.xyz/unblock163.sh"
 		chmod +x "${FILEPASH_NOW}/unblock163.sh"
 		echo -e "脚本已更新为最新版本[ ${NEW_VER_SHELL} ] !\n${TIP} 因为更新方式为直接覆盖当前运行的脚本，所以可能下面会提示一些报错，无视即可。" && exit 0
 	#else
