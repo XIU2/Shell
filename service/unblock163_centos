@@ -12,6 +12,12 @@
 # Description:       Start or stop the UnblockNeteaseMusic
 ### END INIT INFO
 
+##### 我的变量 #####
+export ENABLE_LOCAL_VIP=true
+#export ENABLE_HTTPDNS=true
+#export LOG_LEVEL=debug
+####################
+
 NAME="UnblockNeteaseMusic"
 NAME_BIN="UnblockNeteaseMusic"
 FOLDER="/usr/local/UnblockNeteaseMusic"
@@ -37,6 +43,8 @@ _CONFIG_READ(){
 	PORT=$(cat ${FILE_CONF}|grep 'PORT = '|awk -F 'PORT = ' '{print $NF}')
 	SOURCE=$(cat ${FILE_CONF}|grep 'SOURCE = '|awk -F 'SOURCE = ' '{print $NF}')
 	STRICT=$(cat ${FILE_CONF}|grep 'STRICT = '|awk -F 'STRICT = ' '{print $NF}')
+	ENDPOINT=$(cat ${FILE_CONF}|grep 'ENDPOINT = '|awk -F 'ENDPOINT = ' '{print $NF}')
+	ENDPOINTURL=$(cat ${FILE_CONF}|grep 'ENDPOINTURL = '|awk -F 'ENDPOINTURL = ' '{print $NF}')
 	FORCEHOST=$(cat ${FILE_CONF}|grep 'FORCEHOST = '|awk -F 'FORCEHOST = ' '{print $NF}')
 }
 _START(){
@@ -48,16 +56,21 @@ _START(){
 		echo -e "${INFO} $NAME 启动中..."
 		ulimit -n 51200
 		if [[ "${STRICT}" == "NO" ]]; then
-			ARGUMENTS_S="" && ARGUMENTS_E="" && STRICT=""
+			ARGUMENTS_S=""
 		else
-			ARGUMENTS_S="-s" && ARGUMENTS_E="-e" && STRICT="http://music.163.com"
+			ARGUMENTS_S="-s"
+		fi
+		if [[ "${ENDPOINT}" == "NO" ]]; then
+			ARGUMENTS_E=""
+		else
+			ARGUMENTS_E="-e ${ENDPOINTURL}"
 		fi
 		if [[ -z "${FORCEHOST}" ]]; then
 			ARGUMENTS_F=""
 		else
 			ARGUMENTS_F="-f"
 		fi
-		nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} ${ARGUMENTS_S} ${ARGUMENTS_E} ${STRICT} ${ARGUMENTS_F} ${FORCEHOST} > "${FILE_LOG}" 2>&1 &
+		nohup "${FILE_NODE}" "${FILE}" -a 0.0.0.0 -p ${PORT} -o ${SOURCE} ${ARGUMENTS_S} ${ARGUMENTS_E} ${ARGUMENTS_F} ${FORCEHOST} > "${FILE_LOG}" 2>&1 &
 		sleep 2s
 		_CHECK_PID
 		if [[ ${?} == 0 ]]; then
