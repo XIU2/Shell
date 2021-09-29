@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 # --------------------------------------------------------------
 #	项目: CloudflareSpeedTest 自动更新 Hosts
-#	版本: 1.0.0
+#	版本: 1.0.2
 #	作者: XIU2
 #	项目: https://github.com/XIU2/CloudflareSpeedTest
 # --------------------------------------------------------------
@@ -30,8 +30,15 @@ _CHECK() {
 _UPDATE() {
 	echo -e "开始测速..."
 	NOWIP=$(head -1 nowip.txt)
+
+	# 这里可以自己添加、修改 CloudflareST 的运行参数
 	./CloudflareST
+
 	BESTIP=$(sed -n "2,1p" result.csv | awk -F, '{print $1}')
+	if [[ -z "${BESTIP}" ]]; then
+		echo "CloudflareST 测速结果 IP 数量为 0，跳过下面步骤..."
+		exit 0
+	fi
 	echo ${BESTIP} > nowip.txt
 	echo -e "\n旧 IP 为 ${NOWIP}\n新 IP 为 ${BESTIP}\n"
 

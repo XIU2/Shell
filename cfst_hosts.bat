@@ -1,6 +1,6 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新 Hosts
-::	版本: 1.0.1
+::	版本: 1.0.2
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
@@ -49,8 +49,12 @@ if not exist "nowip.txt" (
 set /p nowip=<nowip.txt
 echo 开始测速...
 
+
+
 :: 这里可以自己添加、修改 CloudflareST 的运行参数，echo.| 的作用是自动回车退出程序（不再需要加上 -p 0 参数了）
 echo.|CloudflareST.exe
+
+
 
 for /f "tokens=1 delims=," %%i in (result.csv) do (
     SET /a n+=1 
@@ -60,12 +64,18 @@ for /f "tokens=1 delims=," %%i in (result.csv) do (
     )
 )
 :END
+if "%bestip%"=="" (
+echo.
+echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+goto :STOP
+)
+
 echo %bestip%>nowip.txt
 echo.
 echo 旧 IP 为 %nowip%
 echo 新 IP 为 %bestip%
-C:
-CD "C:\Windows\System32\drivers\etc"
+
+CD /d "C:\Windows\System32\drivers\etc"
 echo.
 echo 开始备份 Hosts 文件（hosts_backup）...
 copy hosts hosts_backup
@@ -78,6 +88,8 @@ echo 开始替换...
         echo !s!
         )
 )>hosts
+
 echo 完成...
 echo.
+:STOP
 pause 

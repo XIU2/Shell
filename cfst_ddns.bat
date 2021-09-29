@@ -1,6 +1,6 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新域名解析记录
-::	版本: 1.0.1
+::	版本: 1.0.3
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
@@ -14,6 +14,11 @@ for /f "tokens=1 delims=," %%i in (result.csv) do (
     Set /a n+=1 
     If !n!==2 (
         Echo %%i
+        if "%%i"=="" (
+            echo.
+            echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+            goto :END
+        )
         curl -X PUT "https://api.cloudflare.com/client/v4/zones/域名ID/dns_records/域名解析记录ID" ^
                 -H "X-Auth-Email: 账号邮箱" ^
                 -H "X-Auth-Key: 前面获取的 API 令牌" ^

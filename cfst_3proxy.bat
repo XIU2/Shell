@@ -1,6 +1,6 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新 3Proxy
-::	版本: 1.0.2
+::	版本: 1.0.3
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
@@ -64,6 +64,12 @@ for /f "tokens=1 delims=," %%i in (result.csv) do (
     )
 )
 :END
+if "%bestip%"=="" (
+echo.
+echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+goto :STOP
+)
+
 echo %bestip%>nowip_3proxy.txt
 echo.
 echo 旧 IP 为 %nowip%
@@ -95,4 +101,5 @@ net start 3proxy
 
 echo 完成...
 echo.
+:STOP
 pause 
