@@ -1,6 +1,6 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新 Hosts
-::	版本: 1.0.2
+::	版本: 1.0.3
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
@@ -34,29 +34,40 @@ if '%errorlevel%' NEQ '0' (
 ::上面是判断是否以获得管理员权限，如果没有就去获取，下面才是本脚本主要代码
 
 
-::如果 nowip.txt 文件不存在，说明是第一次运行该脚本
-if not exist "nowip.txt" (
+::如果 nowip_hosts.txt 文件不存在，说明是第一次运行该脚本
+if not exist "nowip_hosts.txt" (
     echo 该脚本的作用为 CloudflareST 测速后获取最快 IP 并替换 Hosts 中的 Cloudflare CDN IP。
     echo 使用前请先阅读：https://github.com/XIU2/CloudflareSpeedTest/issues/42#issuecomment-768273768
     echo.
     echo 第一次使用，请先将 Hosts 中所有 Cloudflare CDN IP 统一改为一个 IP。
     set /p nowip="输入该 Cloudflare CDN IP 并回车（后续不再需要该步骤）:"
-    echo !nowip!>nowip.txt
+    echo !nowip!>nowip_hosts.txt
     echo.
 )  
 
-::从 nowip.txt 文件获取当前 Hosts 中使用的 Cloudflare CDN IP
-set /p nowip=<nowip.txt
+::从 nowip_hosts.txt 文件获取当前 Hosts 中使用的 Cloudflare CDN IP
+set /p nowip=<nowip_hosts.txt
 echo 开始测速...
 
 
+:: 这个 RESET 是给需要 "找不到满足条件的 IP 就一直循环测速下去" 功能的人准备的
+:: 如果需要这个功能就把下面 3 个 goto :STOP 改为 goto :RESET 即可
+:RESET
+
 
 :: 这里可以自己添加、修改 CloudflareST 的运行参数，echo.| 的作用是自动回车退出程序（不再需要加上 -p 0 参数了）
-echo.|CloudflareST.exe
+echo.|CloudflareST.exe -o "result_hosts.txt"
 
 
+:: 判断结果文件是否存在，如果不存在说明结果为 0
+if not exist result_hosts.txt (
+    echo.
+    echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+    goto :STOP
+)
 
-for /f "tokens=1 delims=," %%i in (result.csv) do (
+:: 获取第一行的最快 IP
+for /f "tokens=1 delims=," %%i in (result_hosts.txt) do (
     SET /a n+=1 
     If !n!==2 (
         SET bestip=%%i
@@ -64,13 +75,20 @@ for /f "tokens=1 delims=," %%i in (result.csv) do (
     )
 )
 :END
+
+:: 判断刚刚获取的最快 IP 是否为空，以及是否和旧 IP 一样
 if "%bestip%"=="" (
-echo.
-echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
-goto :STOP
+    echo.
+    echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+    goto :STOP
+)
+if "%bestip%"=="%nowip%" (
+    echo.
+    echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+    goto :STOP
 )
 
-echo %bestip%>nowip.txt
+echo %bestip%>nowip_hosts.txt
 echo.
 echo 旧 IP 为 %nowip%
 echo 新 IP 为 %bestip%

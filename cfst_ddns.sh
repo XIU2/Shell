@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 # --------------------------------------------------------------
 #	项目: CloudflareSpeedTest 自动更新域名解析记录
-#	版本: 1.0.3
+#	版本: 1.0.4
 #	作者: XIU2
 #	项目: https://github.com/XIU2/CloudflareSpeedTest
 # --------------------------------------------------------------
@@ -33,9 +33,12 @@ _READ() {
 
 _UPDATE() {
 	# 这里可以自己添加、修改 CloudflareST 的运行参数
-	./CloudflareST
+	./CloudflareST -o "result_ddns.txt"
 
-	CONTENT=$(sed -n "2,1p" result.csv | awk -F, '{print $1}')
+	# 判断结果文件是否存在，如果不存在说明结果为 0
+	[[ ! -e "result_ddns.txt" ]] && echo "CloudflareST 测速结果 IP 数量为 0，跳过下面步骤..." && exit 0
+
+	CONTENT=$(sed -n "2,1p" result_ddns.txt | awk -F, '{print $1}')
 	if [[ -z "${CONTENT}" ]]; then
 		echo "CloudflareST 测速结果 IP 数量为 0，跳过下面步骤..."
 		exit 0

@@ -1,6 +1,6 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新 3Proxy
-::	版本: 1.0.3
+::	版本: 1.0.4
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
@@ -34,7 +34,7 @@ if '%errorlevel%' NEQ '0' (
 ::上面是判断是否以获得管理员权限，如果没有就去获取，下面才是本脚本主要代码
 
 
-::如果 nowip.txt 文件不存在，说明是第一次运行该脚本
+::如果 nowip_3proxy.txt 文件不存在，说明是第一次运行该脚本
 if not exist "nowip_3proxy.txt" (
     echo 该脚本的作用为 CloudflareST 测速后获取最快 IP 并替换 3Proxy 配置文件中的 Cloudflare CDN IP。
     echo 可以把所有 Cloudflare CDN IP 都重定向至最快 IP，实现一劳永逸的加速所有使用 Cloudflare CDN 的网站（不需要一个个添加域名到 Hosts 了）。
@@ -50,13 +50,24 @@ set /p nowip=<nowip_3proxy.txt
 echo 开始测速...
 
 
+:: 这个 RESET 是给需要 "找不到满足条件的 IP 就一直循环测速下去" 功能的人准备的
+:: 如果需要这个功能就把下面 3 个 goto :STOP 改为 goto :RESET 即可
+:RESET
+
 
 :: 这里可以自己添加、修改 CloudflareST 的运行参数，echo.| 的作用是自动回车退出程序（不再需要加上 -p 0 参数了）
-echo.|CloudflareST.exe
+echo.|CloudflareST.exe -o "result_3proxy.txt"
 
 
+:: 判断结果文件是否存在，如果不存在说明结果为 0
+if not exist result_3proxy.txt (
+    echo.
+    echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+    goto :STOP
+)
 
-for /f "tokens=1 delims=," %%i in (result.csv) do (
+:: 获取第一行的最快 IP
+for /f "tokens=1 delims=," %%i in (result_3proxy.txt) do (
     set /a n+=1 
     If !n!==2 (
         set bestip=%%i
@@ -64,10 +75,17 @@ for /f "tokens=1 delims=," %%i in (result.csv) do (
     )
 )
 :END
+
+:: 判断刚刚获取的最快 IP 是否为空，以及是否和旧 IP 一样
 if "%bestip%"=="" (
-echo.
-echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
-goto :STOP
+    echo.
+    echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+    goto :STOP
+)
+if "%bestip%"=="%nowip%" (
+    echo.
+    echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
+    goto :STOP
 )
 
 echo %bestip%>nowip_3proxy.txt
