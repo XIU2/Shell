@@ -1,6 +1,6 @@
 :: --------------------------------------------------------------
 ::	项目: CloudflareSpeedTest 自动更新 Hosts
-::	版本: 1.0.3
+::	版本: 1.0.4
 ::	作者: XIU2
 ::	项目: https://github.com/XIU2/CloudflareSpeedTest
 :: --------------------------------------------------------------
@@ -87,6 +87,18 @@ if "%bestip%"=="%nowip%" (
     echo CloudflareST 测速结果 IP 数量为 0，跳过下面步骤...
     goto :STOP
 )
+
+
+:: 下面这段代码是 "找不到满足条件的 IP 就一直循环测速下去" 才需要的代码
+:: 考虑到当指定了下载速度下限，但一个满足全部条件的 IP 都没找到时，CloudflareST 就会输出所有 IP 结果
+:: 因此当你指定 -sl 参数时，需要一处下面这段代码开头的 :: 注释符号，来做文件行数判断（比如下载测速数量：10 个，那么下面的值就设在为 11）
+::for /f %%a in ('type result_hosts.txt') do set /a v+=1
+::if %v% GTR 11 (
+::    echo.
+::    echo CloudflareST 测速结果没有找到一个完全满足条件的 IP，重新测速...
+::    goto :RESET
+::)
+
 
 echo %bestip%>nowip_hosts.txt
 echo.
