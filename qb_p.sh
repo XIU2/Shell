@@ -4,7 +4,7 @@ export PATH
 # --------------------------------------------------------------
 #	系统: ALL
 #	项目: qBittorrent 便携版制作 脚本
-#	版本: 1.0.3
+#	版本: 1.0.4
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
@@ -42,9 +42,11 @@ _DOWNLOAD(){
 	[[ ! -e ${FOLDER_DOWNLOAD} ]] && mkdir "${FOLDER_DOWNLOAD}" # 如果下载文件夹不存在，就新建
 	cd ${FOLDER_DOWNLOAD}
 	if ! wget --no-check-certificate -q -t2 -T5 -4 -O "qbittorrent_x32.exe" "https://sourceforge.net/projects/qbittorrent/files/qbittorrent-win32/qbittorrent-${NEW_VER}/qbittorrent_${NEW_VER}_setup.exe/download"; then
+	rm -f qbittorrent_x32.exe
 	_NOTICE "ERROR" "qBittorrent_x32_v${NEW_VER}下载失败！"
 	fi
 	if ! wget --no-check-certificate -q -t2 -T5 -4 -O "qbittorrent_x64.exe" "https://sourceforge.net/projects/qbittorrent/files/qbittorrent-win32/qbittorrent-${NEW_VER}/qbittorrent_${NEW_VER}_x64_setup.exe/download"; then
+	rm -f qbittorrent_x64.exe
 	_NOTICE "ERROR" "qBittorrent_x64_v${NEW_VER}下载失败！"
 	fi
 }
