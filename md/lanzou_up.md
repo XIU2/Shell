@@ -55,7 +55,7 @@ TOKEN="XXX" # 微信推送链接 Token，可选
 这样就能看到 Cookie 中的 *phpdisk_info(值就是那一大串字符)* 和 *ylogin(值就是那几位数字)* 了。  
 双击值即可按 **Ctrl+C** 复制，然后将脚本头部对应变量的 *XXX* 替换即可。  
 
-![蓝奏云获取文件夹ID](https://cdn.jsdelivr.net/gh/XIU2/Shell@master/img/lanzou_up-03.png)
+![蓝奏云获取文件夹ID](https://fastly.jsdelivr.net/gh/XIU2/Shell@master/img/lanzou_up-03.png)
 
 ****
 
@@ -65,7 +65,7 @@ TOKEN="XXX" # 微信推送链接 Token，可选
 
 网页端登陆蓝奏云，找到目标文件夹，*右键文件夹名称 - 检查*。如下图所示，红框中的就是文件夹 ID *(880498)*。  
 
-![蓝奏云获取文件夹ID](https://cdn.jsdelivr.net/gh/XIU2/Shell@master/img/lanzou_up-01.png)
+![蓝奏云获取文件夹ID](https://fastly.jsdelivr.net/gh/XIU2/Shell@master/img/lanzou_up-01.png)
 
 ### 上传文件
 
