@@ -1,7 +1,7 @@
 ---
 name: 反馈BUG
 about: 让脚本更好用一点！
-title: "[BUG/xxx.sh] - 一句话说明情况"
+title: "[XXX.sh] 一句话说明情况"
 labels: ''
 assignees: ''
 
