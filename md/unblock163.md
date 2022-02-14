@@ -2,7 +2,7 @@
 
 ## 脚本介绍
 
-?> 该脚本基于 [UnblockNeteaseMusic](https://github.com/nondanee/UnblockNeteaseMusic) 项目。  
+?> 该脚本基于 [UnblockNeteaseMusic](https://github.com/UnblockNeteaseMusic/server) 项目。  
 
 UnblockNeteaseMusic 是一个可以解锁网易云音乐灰色无版权音乐的代理工具。  
 原理是通过替换无版权音乐的链接为其他音源（QQ、酷我、酷狗、百度、咪咕、JOOX等）来实现解锁无版权音乐。**相当于在网易云音乐客户端中听全网版权音乐！**  
@@ -11,7 +11,7 @@ UnblockNeteaseMusic 是一个可以解锁网易云音乐灰色无版权音乐的
 **建议有条件的部署在国内服务器**，国外服务器只能用 QQ 音源，况且部署在国外相比国内或本地会慢上不少。
 
 ### 脚本版本
-**最新版本：** v1.1.5  
+**最新版本：** v1.1.6  
 
 ### 系统要求
 CentOS 6+ / Debian 6+ / Ubuntu 14.04 +  
@@ -255,6 +255,9 @@ LISTEN0      128           0.0.0.0:80         0.0.0.0:*    users:(("nginx",pid=6
 ****
 
 ## 更新日志
+
+#### 2022年02月14日，版本 v1.1.6 :id=116
+ - **1. 更新** UnblockNeteaseMusic 仓库源镜像源。  
 
 #### 2021年09月21日，版本 v1.1.5 :id=115
  - **1. 调整** 调整 严格模式 与 Endpoint 模式分开配置。  
