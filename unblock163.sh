@@ -10,7 +10,7 @@ export PATH
 #	项目: https://github.com/XIU2/Shell
 # --------------------------------------------------------------
 
-NOW_VER_SHELL="1.1.5"
+NOW_VER_SHELL="1.1.6"
 NEW_VER_NODE_BACKUP="16.9.1"
 FILEPASH=$(cd "$(dirname "$0")"; pwd)
 FILEPASH_NOW=$(echo -e "${FILEPASH}"|awk -F "$0" '{print $1}')
@@ -168,6 +168,26 @@ _SERVICE(){
 		update-rc.d -f "${NAME_SERVICE}" defaults
 	fi
 	echo -e "${INFO} ${NAME} 服务管理脚本下载完成 !"
+}
+# 添加别名
+_ALIAS_SET(){
+	if [ -f "/etc/bashrc" ];then
+		  echo alias unblock163="'/etc/init.d/${NAME_SERVICE}'">> /etc/bashrc
+		  source /etc/bashrc
+	elif [ -f "/etc/bash.bashrc" ];then
+		  echo alias unblock163="'/etc/init.d/${NAME_SERVICE}'">> /etc/bash.bashrc
+		  source /etc/bash.bashrc
+	fi
+}
+# 删除别名
+_ALIAS_UNSET(){
+	if [ -f "/etc/bashrc" ];then
+		  sed -i '/unblock163/d' /etc/bashrc
+		  source /etc/bashrc
+	elif [ -f "/etc/bash.bashrc" ];then
+		  sed -i '/unblock163/d' /etc/bash.bashrc
+		  source /etc/bash.bashrc
+	fi
 }
 # 安装失败善后处理
 _INSTALLATION_FAILURE_CLEANUP() {
@@ -363,6 +383,7 @@ _INSTALL() {
 	_DOWNLOAD
 	echo -e "${INFO} 开始下载/安装 服务脚本(init)..."
 	_SERVICE
+	_ALIAS_SET
 	echo -e "${INFO} 开始写入 配置文件..."
 	_CONFIG_OPERATION "WRITE"
 	echo -e "${INFO} 开始设置 iptables防火墙..."
@@ -410,6 +431,7 @@ _UNINSTALL() {
 			_IPTABLES_OPTION "DEL"
 			_IPTABLES_OPTION "SAVE"
 		fi
+		_ALIAS_UNSET
 		[[ -e "${FOLDER}" ]] && rm -rf "${FOLDER}"
 		if [[ -e "/etc/init.d/${NAME_SERVICE}"  ]];then
 			if [[ "${SYSTEM_RELEASE}" = "centos" ]]; then
