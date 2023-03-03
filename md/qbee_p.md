@@ -4,7 +4,7 @@
 
 本来是制作便携版给自己用的，后来一些人希望我分享出去，于是为了实现自动制作便携版并上传到蓝奏云网盘，我就特地写了这个脚本。  
 
-该脚本作用很简单，**下载最新版本 qBittorrentEE 制作为便携版并上传到蓝奏云**，效果：[蓝奏云](https://xiu.lanzouq.com/b073dnr7g)。  
+该脚本作用很简单，**下载最新版本 qBittorrentEE 制作为便携版并上传到蓝奏云**，效果：[蓝奏云](https://xiu.lanzouf.com/b073dnr7g)。  
 
 ### 脚本版本
 
@@ -59,7 +59,7 @@ FILE_FORMAT="zip" # 最后打包的压缩包格式，推荐 zip 或 7z
 蓝奏云文件夹ID获取方法：[https://shell.xiu2.xyz/#/md/lanzou_up?id=获取文件夹ID](https://shell.xiu2.xyz/#/md/lanzou_up?id=%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e5%a4%b9id)  
 蓝奏云上传文件脚本：[https://shell.xiu2.xyz/#/md/lanzou_up](https://shell.xiu2.xyz/#/md/lanzou_up)  
 
-然后去 [蓝奏云](https://pan.lanzoux.com/b073jjwta) 下载一个最新版本，把压缩包内的 `profile` 文件夹放到服务器的 `qBittorrentEE/Other` 文件夹下（没有就新建，可以添加其他说明文件，就像我做的那样）。  
+然后去 [蓝奏云](https://pan.lanzouf.com/b073jjwta) 下载一个最新版本，把压缩包内的 `profile` 文件夹放到服务器的 `qBittorrentEE/Other` 文件夹下（没有就新建，可以添加其他说明文件，就像我做的那样）。  
 
 配置完毕后，就可以先试一试能不能正常使用了！  
 
