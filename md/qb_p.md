@@ -2,13 +2,13 @@
 
 ## 脚本介绍
 
-本来是制作便携版给自己用的，后来一些人希望我分享出去，于是为了实现自动制作便携版并上传到蓝奏云网盘，我就特地写了这个脚本。  
+本来是制作便携版给自己用的，后来一些人希望我分享出去，于是为了实现自动制作便携版已失效~~并上传到蓝奏云网盘~~，我就特地写了这个脚本。  
 
 该脚本作用很简单，**下载最新版本 qBittorrent 制作为便携版并上传到蓝奏云**，效果：[蓝奏云](https://pan.lanzouf.com/b073jjwta)。  
 
 ### 脚本版本
 
-**最新版本：** v1.0.4
+**最新版本：** v1.0.5
 
 ### 系统要求
 
@@ -56,8 +56,8 @@ FILE_FORMAT="zip" # 最后打包的压缩包格式，推荐 zip 或 7z
 ```
 
 ?> 脚本支持推送错误消息至微信，但是需要配置 TOKEN，支持 [PushPlus(默认)](http://pushplus.hxtrip.com)、[Server酱](https://sc.ftqq.com/3.version)，自行了解，不需要可留空或保留 XXX。  
-蓝奏云文件夹ID获取方法：[https://shell.xiu2.xyz/#/md/lanzou_up?id=获取文件夹ID](https://shell.xiu2.xyz/#/md/lanzou_up?id=%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e5%a4%b9id)  
-蓝奏云上传文件脚本：[https://shell.xiu2.xyz/#/md/lanzou_up](https://shell.xiu2.xyz/#/md/lanzou_up)  
+已失效~~蓝奏云文件夹ID获取方法：[https://shell.xiu2.xyz/#/md/lanzou_up?id=获取文件夹ID](https://shell.xiu2.xyz/#/md/lanzou_up?id=%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e5%a4%b9id)  
+蓝奏云上传文件脚本：[https://shell.xiu2.xyz/#/md/lanzou_up](https://shell.xiu2.xyz/#/md/lanzou_up)~~  
 
 然后去 [蓝奏云](https://pan.lanzouf.com/b073jjwta) 下载一个最新版本，把压缩包内的 `profile` 文件夹放到服务器的 `qBittorrent/Other` 文件夹下（没有就新建，可以添加其他说明文件，就像我做的那样）。  
 
@@ -77,13 +77,10 @@ bash qb_p.sh "4.2.3"
 
 ****
 
-### 其他说明
-
-如果不想上传到蓝奏云，可以注释掉脚本最后一行的 `_UPLOAD` 代码（行首加井号）。  
-
-****
-
 ## 更新日志
+
+#### 2023年06月06日，版本 v1.0.5 :id=105
+ - **1. 适配** 最新的多版本文件。  
 
 #### 2022年01月07日，版本 v1.0.4 :id=104
  - **1. 修复** 下载失败一次后，后续下载都会失败的问题。  
