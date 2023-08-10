@@ -20,7 +20,7 @@
 
 在左边侧栏中选择脚本，即可看到详细安装及使用说明等。
 
-> 如遇到脚本出错，请先查看脚本相关文档中是否说明，如没有请通过 [issue](https://github.com/XIU2/Shell/issues/new/choose) 提供完整报错内容及相关截图！  
+> 如遇到脚本报错，请先查看脚本相关文档中是否说明，如没有请通过 [issue](https://github.com/XIU2/Shell/issues/new/choose) 提供完整报错内容及相关截图！  
 
 ****
 
