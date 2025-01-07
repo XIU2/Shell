@@ -33,7 +33,7 @@ INFO="[信息]" && ERROR="[错误]" && TIP="[注意]"
 _CHECK_VER(){
 	NEW_VER=$1 # 此处是手动指定版本号时的代码
 	[[ -z ${NEW_VER} ]] && NEW_VER=$(wget -qO- https://api.github.com/repos/qbittorrent/qBittorrent/tags | grep "name"|grep -v "beta"|grep -v "alpha"|grep -v "rc"| head -n 1| awk -F ":" '{print $2}'| sed 's/\"//g;s/,//g;s/ //g;s/release-//')
-	[[ -z ${NEW_VER} ]] && _NOTICE_MAIL "ERROR"  "qBittorrent最新版本获取失败！"
+	[[ -z ${NEW_VER} ]] && _NOTICE "ERROR"  "qBittorrent最新版本获取失败！"
 	[[ ! -e ${FOLDER} ]] && mkdir "${FOLDER}" # 如果主文件夹不存在，就新建
 	[[ ! -e ${FILE_OLD_VER} ]] && echo -n ${NEW_VER} > ${FILE_OLD_VER} # 如果旧版本文件不存在，说明是首次运行，则把当前版本号写入该文件
 	[[ $(cat ${FILE_OLD_VER}) == ${NEW_VER} ]] && echo -e "${INFO} 已经是最新版本！${NEW_VER} [$(date '+%Y/%m/%d %H:%M')]" && exit 1
@@ -47,7 +47,7 @@ _DOWNLOAD(){
 
 	if ! wget --no-check-certificate -q -t2 -T5 -4 -O "qbittorrent${1}.exe" "https://sourceforge.net/projects/qbittorrent/files/qbittorrent-win32/qbittorrent-${NEW_VER}/qbittorrent_${NEW_VER}${1}_setup.exe/download"; then
 		rm -f "qbittorrent${1}.exe"
-		_NOTICE_MAIL "ERROR" "qBittorrent${1}_v${NEW_VER}下载失败!"
+		_NOTICE "ERROR" "qBittorrent${1}_v${NEW_VER}下载失败!"
 	fi
 }
 
@@ -57,7 +57,7 @@ _UNZIP(){
 	mkdir "${FOLDER_DOWNLOAD_UNZIP}"
 
 	7z x -bb0 -x'!qbittorrent.pdb' -x'!$PLUGINSDIR' -o"${FOLDER_DOWNLOAD_UNZIP}" "qbittorrent${1}.exe" > /dev/null # 解压
-	[[ ! -e "${FOLDER_DOWNLOAD_UNZIP}/qbittorrent.exe" ]] && _NOTICE_MAIL "ERROR" "qBittorrent${1}_v${NEW_VER}解压失败！"
+	[[ ! -e "${FOLDER_DOWNLOAD_UNZIP}/qbittorrent.exe" ]] && _NOTICE "ERROR" "qBittorrent${1}_v${NEW_VER}解压失败！"
 
 	rm -rf "qbittorrent${1}.exe"
 	cd "${FOLDER_DOWNLOAD_UNZIP}/translations"
@@ -73,7 +73,7 @@ _ZIP(){
 
 	7z a -bb0 "qBittorrent_v${NEW_VER}${1}_便携版.${FILE_FORMAT}" "qBittorrent" > /dev/null # 压缩
 	rm -rf "${FOLDER_DOWNLOAD_UNZIP}" # 删除前面解压，已经无用文件夹
-	[[ ! -e "qBittorrent_v${NEW_VER}${1}_便携版.${FILE_FORMAT}" ]] && _NOTICE_MAIL "ERROR" "qBittorrent_v${NEW_VER}${1} 压缩失败！"
+	[[ ! -e "qBittorrent_v${NEW_VER}${1}_便携版.${FILE_FORMAT}" ]] && _NOTICE "ERROR" "qBittorrent_v${NEW_VER}${1} 压缩失败！"
 
 	[[ ! -e ${FOLDER_UPLOAD} ]] && mkdir "${FOLDER_UPLOAD}" # 如果上传文件夹不存在，就新建
 	mv "qBittorrent_v${NEW_VER}${1}_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}" # 移动到上传文件夹
