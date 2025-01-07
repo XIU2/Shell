@@ -4,7 +4,7 @@ export PATH
 # --------------------------------------------------------------
 #	系统: ALL
 #	项目: qBittorrent Enhanced Edition 便携版制作 脚本
-#	版本: 1.0.6
+#	版本: 1.0.7
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
@@ -34,28 +34,16 @@ _CHECK_VER(){
 	[[ ! -e ${FOLDER} ]] && mkdir "${FOLDER}" # 如果主文件夹不存在，就新建
 	[[ ! -e ${FILE_OLD_VER} ]] && echo -n ${NEW_VER} > ${FILE_OLD_VER} # 如果旧版本文件不存在，说明是首次运行，则把当前版本号写入该文件
 	[[ $(cat ${FILE_OLD_VER}) == ${NEW_VER} ]] && echo -e "${INFO} 已经是最新版本！${NEW_VER} [$(date '+%Y/%m/%d %H:%M')]" && exit 1
+	echo -e "${INFO} 检测到新版本 ${NEW_VER} 开始下载..."
 }
 
 # 下载
 _DOWNLOAD(){
 	[[ ! -e ${FOLDER_DOWNLOAD} ]] && mkdir "${FOLDER_DOWNLOAD}" # 如果下载文件夹不存在，就新建
 	cd ${FOLDER_DOWNLOAD}
-	if ! wget --no-check-certificate -q -t2 -T5 -4 -U "${UA}" -O "qbittorrentEE_x32.exe" "https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases/download/release-${NEW_VER}/qbittorrent_enhanced_${NEW_VER}_setup.exe"; then
-	rm -f qbittorrentEE_x32.exe
-	_NOTICE_MAIL "ERROR" "qBittorrentEE_x32_v${NEW_VER}下载失败!"
-	fi
 	if ! wget --no-check-certificate -q -t2 -T5 -4 -U "${UA}" -O "qbittorrentEE_x64.exe" "https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases/download/release-${NEW_VER}/qbittorrent_enhanced_${NEW_VER}_x64_setup.exe"; then
 	rm -f qbittorrentEE_x64.exe
 	_NOTICE_MAIL "ERROR" "qBittorrentEE_x64_v${NEW_VER}下载失败!"
-	fi
-}
-
-_DOWNLOAD_qt6(){
-	[[ ! -e ${FOLDER_DOWNLOAD} ]] && mkdir "${FOLDER_DOWNLOAD}" # 如果下载文件夹不存在，就新建
-	cd ${FOLDER_DOWNLOAD}
-	if ! wget --no-check-certificate -q -t2 -T5 -4 -U "${UA}" -O "qbittorrentEE_qt6_x64.exe" "https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases/download/release-${NEW_VER}/qbittorrent_enhanced_${NEW_VER}_qt6_x64_setup.exe"; then
-	rm -f qbittorrentEE_qt6_x64.exe
-	_NOTICE_MAIL "ERROR" "qBittorrentEE_qt6_x64_v${NEW_VER} 下载失败!"
 	fi
 }
 
@@ -65,21 +53,7 @@ _UNZIP(){
 	mkdir "${FOLDER_DOWNLOAD_UNZIP}"
 	7z x -bb0 -x'!qbittorrent.pdb' -x'!$PLUGINSDIR' -o"${FOLDER_DOWNLOAD_UNZIP}" qbittorrentEE_x64.exe > /dev/null # 解压64位文件
 	[[ ! -e "${FOLDER_DOWNLOAD_UNZIP}/qbittorrent.exe" ]] && _NOTICE_MAIL "ERROR" "qBittorrentEE_x64_v${NEW_VER} 解压失败！"
-	mv "${FOLDER_DOWNLOAD_UNZIP}/qbittorrent.exe" "${FOLDER_DOWNLOAD_UNZIP}/qbittorrent_x64.exe" # 将 qbittorrent.exe 重命名位 qbittorrent_x64.exe
-	7z e -bb0 -o"${FOLDER_DOWNLOAD_UNZIP}" qbittorrentEE_x32.exe qbittorrent.exe > /dev/null # 解压32位文件，仅 qbittorrent.exe
-	[[ ! -e "${FOLDER_DOWNLOAD_UNZIP}/qbittorrent.exe" ]] && _NOTICE_MAIL "ERROR" "qBittorrentEE_x32_v${NEW_VER} 解压失败！"
 	rm -rf qbittorrentEE_x64.exe
-	rm -rf qbittorrentEE_x32.exe
-	cd "${FOLDER_DOWNLOAD_UNZIP}/translations"
-	rm -f $(ls|egrep -v 'zh_') # 删除非中文语言文件，如果需要全语言，则注释这一行及上一行（行首加井号）
-}
-
-_UNZIP_qt6(){
-	[[ -e ${FOLDER_DOWNLOAD_UNZIP} ]] && rm -rf "${FOLDER_DOWNLOAD_UNZIP}" # 如果解压文件夹存在，就删除并重建
-	mkdir "${FOLDER_DOWNLOAD_UNZIP}"
-	7z x -bb0 -x'!qbittorrent.pdb' -x'!$PLUGINSDIR' -o"${FOLDER_DOWNLOAD_UNZIP}" qbittorrentEE_qt6_x64.exe > /dev/null # 解压64位文件
-	[[ ! -e "${FOLDER_DOWNLOAD_UNZIP}/qbittorrent.exe" ]] && _NOTICE_MAIL "ERROR" "qBittorrentEE_qt6_x64_v${NEW_VER} 解压失败！"
-	rm -rf qbittorrentEE_qt6_x64.exe
 	cd "${FOLDER_DOWNLOAD_UNZIP}/translations"
 	rm -f $(ls|egrep -v 'zh_') # 删除非中文语言文件，如果需要全语言，则注释这一行及上一行（行首加井号）
 }
@@ -89,30 +63,19 @@ _ZIP(){
 	cd ${FOLDER_DOWNLOAD}
 	# 复制配置等文件到文件夹内
 	cp -r "${FOLDER_OTHER}"/* "${FOLDER_DOWNLOAD_UNZIP}"
-	7z a -bb0 "qBittorrentEE_v${NEW_VER}_便携版.${FILE_FORMAT}" "qBittorrentEE" "" > /dev/null # 压缩
+	7z a -bb0 "qBittorrentEE_v${NEW_VER}_x64_便携版.${FILE_FORMAT}" "qBittorrentEE" "" > /dev/null # 压缩
 	rm -rf "${FOLDER_DOWNLOAD_UNZIP}" # 删除前面解压，已经无用文件夹
-	[[ ! -e "qBittorrentEE_v${NEW_VER}_便携版.${FILE_FORMAT}" ]] && _NOTICE_MAIL "ERROR" "qBittorrentEE_v${NEW_VER} 压缩失败！"
+	[[ ! -e "qBittorrentEE_v${NEW_VER}_x64_便携版.${FILE_FORMAT}" ]] && _NOTICE_MAIL "ERROR" "qBittorrentEE_v${NEW_VER} 压缩失败！"
 	[[ ! -e ${FOLDER_UPLOAD} ]] && mkdir "${FOLDER_UPLOAD}" # 如果上传文件夹不存在，就新建
-	mv "qBittorrentEE_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}" # 移动到上传文件夹
-
-}
-
-_ZIP_qt6(){
-	cd ${FOLDER_DOWNLOAD}
-	# 复制配置等文件到文件夹内
-	cp -r "${FOLDER_OTHER}"/* "${FOLDER_DOWNLOAD_UNZIP}"
-	7z a -bb0 "qBittorrentEE_v${NEW_VER}_qt6_x64_便携版.${FILE_FORMAT}" "qBittorrentEE" "" > /dev/null # 压缩
-	rm -rf "${FOLDER_DOWNLOAD_UNZIP}" # 删除前面解压，已经无用文件夹
-	[[ ! -e "qBittorrentEE_v${NEW_VER}_qt6_x64_便携版.${FILE_FORMAT}" ]] && _NOTICE_MAIL "ERROR" "qBittorrentEE_v${NEW_VER}_qt6_x64 压缩失败！"
-	[[ ! -e ${FOLDER_UPLOAD} ]] && mkdir "${FOLDER_UPLOAD}" # 如果上传文件夹不存在，就新建
-	mv "qBittorrentEE_v${NEW_VER}_qt6_x64_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}" # 移动到上传文件夹
+	mv "qBittorrentEE_v${NEW_VER}_x64_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}" # 移动到上传文件夹
 
 }
 
 #上传
 _UPLOAD(){
-	bash ${LZY_PATH} "qBittorrentEE_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}/qBittorrentEE_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_ID}"
-	#_NOTICE "INFO" "qBittorrentEE_v${NEW_VER}" # 你可以取消井号注释，这样每次更新也会推送消息至微信
+	bash ${LZY_PATH} "${FOLDER_UPLOAD}/qBittorrentEE_v${NEW_VER}_x64_便携版.${FILE_FORMAT}" "${FOLDER_ID}"
+	[[ ${?} -ne 0 ]] && echo -e "${ERROR} 上传到蓝奏云失败，终止后续！" && exit 1
+	#_NOTICE_MAIL "INFO" "qBittorrentEE_v${NEW_VER}" # 你可以取消井号注释，这样每次更新也会推送消息至微信
 }
 
 # 通知
@@ -137,9 +100,6 @@ _CHECK_VER "$1" # 运行脚本的时候传递参数可以指定版本号，例�
 _DOWNLOAD
 _UNZIP
 _ZIP
-_DOWNLOAD_qt6
-_UNZIP_qt6
-_ZIP_qt6
 
 echo -n ${NEW_VER} > ${FILE_OLD_VER}
 #_UPLOAD # 如果不想上传到蓝奏云，可以把这行注释掉（行首加井号）

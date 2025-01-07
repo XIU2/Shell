@@ -4,7 +4,7 @@ export PATH
 # --------------------------------------------------------------
 #	系统: ALL
 #	项目: qBittorrent 便携版制作 脚本
-#	版本: 1.0.5
+#	版本: 1.0.6
 #	作者: XIU2
 #	官网: https://shell.xiu2.xyz
 #	项目: https://github.com/XIU2/Shell
@@ -25,9 +25,7 @@ FOLDER_UPLOAD="${FOLDER}/Upload" # 存放压缩后文件 并 上传的文件夹
 FILE_OLD_VER="${FOLDER}/old_ver.txt" # 存放旧版本号的文件（每次执行脚本都会检查最新版本）
 
 ARRAY=(_x64
-_lt20_qt5_x64
-_qt6_x64
-_lt20_qt6_x64)
+_qt6_lt20_x64)
 
 INFO="[信息]" && ERROR="[错误]" && TIP="[注意]"
 
@@ -39,6 +37,7 @@ _CHECK_VER(){
 	[[ ! -e ${FOLDER} ]] && mkdir "${FOLDER}" # 如果主文件夹不存在，就新建
 	[[ ! -e ${FILE_OLD_VER} ]] && echo -n ${NEW_VER} > ${FILE_OLD_VER} # 如果旧版本文件不存在，说明是首次运行，则把当前版本号写入该文件
 	[[ $(cat ${FILE_OLD_VER}) == ${NEW_VER} ]] && echo -e "${INFO} 已经是最新版本！${NEW_VER} [$(date '+%Y/%m/%d %H:%M')]" && exit 1
+	echo -e "${INFO} 检测到新版本 ${NEW_VER} 开始下载..."
 }
 
 # 下载
@@ -82,7 +81,13 @@ _ZIP(){
 
 # 上传
 _UPLOAD(){
-	bash ${LZY_PATH} "qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_UPLOAD}/qBittorrent_v${NEW_VER}_便携版.${FILE_FORMAT}" "${FOLDER_ID}"
+	for (( i=0; i <= ((${#ARRAY[*]}-1)); i++ ))
+	do
+		#echo "${i} ${ARRAY[i]}"
+		bash ${LZY_PATH} "${FOLDER_UPLOAD}/qBittorrent_v${NEW_VER}${ARRAY[i]}_便携版.${FILE_FORMAT}" "${FOLDER_ID}"
+		[[ ${?} -ne 0 ]] && echo -e "${ERROR} 上传到蓝奏云失败，终止后续！" && exit 1
+	done
+	
 	#_NOTICE "INFO" "qBittorrent_v${NEW_VER}" # 你可以取消井号注释，这样每次更新也会推送消息至微信
 }
 
